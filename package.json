@@ -2,24 +2,24 @@
   "name": "rpg",
   "version": "0.0.0",
   "description": ".",
-  "main": "docs/index.html",
-  "scripts": {
-    "start:client": "vite client index.html",
-    "start:server": "ts-node-dev server/index.ts",
-    "start": "concurrently -n client,server 'pnpm:start:client' 'pnpm:start:server'",
-    "build": "vite build client --outDir ../docs --base ./",
-    "preinstall": "ncu"
+  "homepage": "https://github.com/walze/rpg#readme",
+  "bugs": {
+    "url": "https://github.com/walze/rpg/issues"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/walze/rpg.git"
   },
-  "author": "Wallace Fares, Juan Dornelles, Jaime Barbosa",
   "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/walze/rpg/issues"
+  "author": "Wallace Fares, Juan Dornelles, Jaime Barbosa",
+  "main": "docs/index.html",
+  "scripts": {
+    "build": "vite build client --outDir ../docs --base ./",
+    "preinstall": "ncu",
+    "start": "concurrently -n client,server 'pnpm:start:client' 'pnpm:start:server'",
+    "start:client": "vite client index.html",
+    "start:server": "ts-node-dev server/index.ts"
   },
-  "homepage": "https://github.com/walze/rpg#readme",
   "dependencies": {
     "@types/localtunnel": "^2.0.1",
     "@types/node": "^18.7.23",
