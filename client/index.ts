@@ -1,4 +1,4 @@
-export const socket = new WebSocket("ws://localhost:1234");
+export const socket = new WebSocket(`ws://localhost:9876`);
 
 socket.addEventListener("open", () => {
   console.log("connected");
