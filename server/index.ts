@@ -13,5 +13,5 @@ ws.on("connection", (client) => {
     console.log("received: %s", data);
   });
 
-  client.send("something else");
+  client.send("server response");
 });
