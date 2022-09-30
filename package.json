@@ -6,7 +6,8 @@
   "scripts": {
     "start:client": "vite client index.html",
     "start:server": "ts-node-dev server/index.ts",
-    "start": "concurrently -n client,server 'pnpm:start:client' 'pnpm:start:server'"
+    "start": "concurrently -n client,server 'pnpm:start:client' 'pnpm:start:server'",
+    "build": "vite build client --outDir ../docs --base ./"
   },
   "repository": {
     "type": "git",
