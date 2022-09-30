@@ -14,8 +14,9 @@
   "author": "Wallace Fares, Juan Dornelles, Jaime Barbosa",
   "main": "docs/index.html",
   "scripts": {
-    "build": "vite build client --outDir ../docs --base ./",
+    "build": "vite build",
     "preinstall": "ncu",
+    "sort": "npx sort-package-json",
     "start": "concurrently -n client,server 'pnpm:start:client' 'pnpm:start:server'",
     "start:client": "vite client index.html",
     "start:server": "ts-node-dev server/index.ts"
@@ -34,5 +35,9 @@
     "typescript": "^4.8.4",
     "vite": "^3.1.4",
     "ws": "^8.9.0"
+  },
+  "devDependencies": {
+    "esbuild": "^0.15.10",
+    "rollup": "^2.79.1"
   }
 }
