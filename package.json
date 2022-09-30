@@ -14,7 +14,7 @@
   "author": "Wallace Fares, Juan Dornelles, Jaime Barbosa",
   "main": "docs/index.html",
   "scripts": {
-    "build": "vite build",
+    "build": "vite build --base ./",
     "preinstall": "ncu",
     "sort": "npx sort-package-json",
     "start": "concurrently -n client,server 'pnpm:start:client' 'pnpm:start:server'",
