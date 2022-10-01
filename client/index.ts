@@ -1,4 +1,9 @@
-export const socket = new WebSocket(`wss://localhost:9876`);
+const isProd = process.env["NODE_ENV"] !== "development";
+console.log({ isProd });
+
+export const socket = new WebSocket(
+  isProd ? "ws://rpg.vps-kinghost.net/" : "ws://localhost:9876"
+);
 
 socket.addEventListener("open", () => {
   console.log("connected");
@@ -7,5 +12,5 @@ socket.addEventListener("open", () => {
 });
 
 socket.addEventListener("message", (event) => {
-  console.log("received: %s", event.data);
+  document.body.innerHTML = event.data;
 });
