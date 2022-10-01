@@ -1,21 +1,17 @@
-import { createServer } from "https";
+import { createServer } from "http";
 import { WebSocketServer } from "ws";
-import cert from "../cert";
 import serve from "./serve";
 
-const port = 9876;
+const isProd = process.env["NODE_ENV"] === "production";
+const port = isProd ? 80 : 9876;
 
-export const domain =
-  process.env["NODE_ENV"] === "production" ? "rpg.vps-kinghost.net" : "0.0.0.0";
+export const domain = isProd ? "0.0.0.0" : "0.0.0.0";
 
-export const origin =
-  process.env["NODE_ENV"] === "production"
-    ? "https://walze.github.io/rpg"
-    : "http://localhost:6789";
+export const origin = isProd
+  ? "https://walze.github.io/rpg"
+  : "http://localhost:6789";
 
-const server = createServer({
-  ...cert,
-});
+const server = createServer();
 
 server.listen(port, domain, 512, () =>
   console.log(

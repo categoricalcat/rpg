@@ -6,10 +6,9 @@ import { join } from "path";
 const publicF = join(__dirname, "../docs");
 
 export default (url: string, res: ServerResponse) => {
-  const type = mime.getType(url);
+  const type = mime.getType(url) || "text/plain";
 
-  if (!type) throw "no type";
-
+  console.log(url, type);
   const stream = createReadStream(publicF + url);
 
   stream.on("error", () => {
