@@ -15,7 +15,9 @@ export const origin =
     ? "https://walze.github.io/rpg"
     : "http://localhost:6789";
 
-const server = createServer(cert);
+const server = createServer({
+  ...cert,
+});
 
 server.listen(port, domain, 512, () =>
   console.log(
