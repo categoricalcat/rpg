@@ -1,4 +1,4 @@
-export const socket = new WebSocket(`ws://rpg-brabo.loca.lt`);
+export const socket = new WebSocket(`wss://localhost:9876`);
 
 socket.addEventListener("open", () => {
   console.log("connected");
