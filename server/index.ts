@@ -4,6 +4,12 @@ import cert from "../cert";
 import serve from "./serve";
 
 const port = 9876;
+
+export const domain =
+  process.env["NODE_ENV"] === "production"
+    ? "rpg.vps-kinghost.net"
+    : "localhost";
+
 export const origin =
   process.env["NODE_ENV"] === "production"
     ? "https://walze.github.io/rpg"
@@ -11,7 +17,9 @@ export const origin =
 
 const server = createServer(cert);
 
-server.listen(port, () => console.log(`listening ==> https://0.0.0.0:${port}`));
+server.listen(port, domain, 512, () =>
+  console.log(`listening ==> https://0.0.0.0:${port}`)
+);
 
 server.on("request", (req, res) => {
   const url = !req.url?.includes(".") ? `${req.url}/index.html` : req.url;
