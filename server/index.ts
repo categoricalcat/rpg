@@ -6,9 +6,7 @@ import serve from "./serve";
 const port = 9876;
 
 export const domain =
-  process.env["NODE_ENV"] === "production"
-    ? "rpg.vps-kinghost.net"
-    : "127.0.0.1";
+  process.env["NODE_ENV"] === "production" ? "rpg.vps-kinghost.net" : "0.0.0.0";
 
 export const origin =
   process.env["NODE_ENV"] === "production"
