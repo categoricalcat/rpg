@@ -8,7 +8,7 @@ const port = 9876;
 export const domain =
   process.env["NODE_ENV"] === "production"
     ? "rpg.vps-kinghost.net"
-    : "localhost";
+    : "127.0.0.1";
 
 export const origin =
   process.env["NODE_ENV"] === "production"
@@ -18,7 +18,10 @@ export const origin =
 const server = createServer(cert);
 
 server.listen(port, domain, 512, () =>
-  console.log(`listening ==> https://0.0.0.0:${port}`)
+  console.log(
+    `listening ==> https://${domain}:${port}`,
+    process.env["NODE_ENV"]
+  )
 );
 
 server.on("request", (req, res) => {
