@@ -1,16 +1,11 @@
-const isProd = process.env["NODE_ENV"] !== "development";
-console.log({ isProd });
+export const $ = document.querySelector.bind(document);
+export const $$ = document.querySelectorAll.bind(document);
 
-export const socket = new WebSocket(
-  isProd ? "ws://rpg.vps-kinghost.net/" : "ws://localhost:9876"
-);
+const $input = $("#chat") as HTMLInputElement | null;
+if (!$input) throw new Error("Nao achou input");
 
-socket.addEventListener("open", () => {
-  console.log("connected");
+$input.addEventListener("keydown", (e) => {
+  if (e.code !== "Enter") return;
 
-  socket.send("client request");
-});
-
-socket.addEventListener("message", (event) => {
-  document.body.innerHTML = event.data;
+  alert("enviado");
 });
