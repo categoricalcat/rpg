@@ -15,16 +15,16 @@
   "main": "docs/index.html",
   "scripts": {
     "build": "vite build --base ./",
+    "docker": "bash ./scripts/start.bash",
     "preinstall": "ncu",
     "sort": "npx sort-package-json",
     "start": "concurrently -n client,server 'pnpm:start:client' 'pnpm:start:server'",
     "start:client": "vite",
-    "start:server": "ts-node-dev -T server/index.ts",
-    "docker": "bash ./scripts/start.bash"
+    "start:server": "ts-node-dev -T server/index.ts"
   },
   "dependencies": {
     "@types/mime": "^3.0.1",
-    "@types/node": "^18.8.4",
+    "@types/node": "^18.8.5",
     "@types/ws": "^8.5.3",
     "concurrently": "^7.4.0",
     "eslint": "^8.25.0",
@@ -40,6 +40,6 @@
   },
   "devDependencies": {
     "esbuild": "^0.15.10",
-    "rollup": "^3.0.0"
+    "rollup": "^3.1.0"
   }
 }
