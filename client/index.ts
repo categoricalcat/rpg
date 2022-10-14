@@ -1,34 +1,22 @@
+import Command from "./Command";
+import Message from "./Message";
+
 export const $ = document.querySelector.bind(document);
 export const $$ = document.querySelectorAll.bind(document);
 
 const $input = $("#chat") as HTMLInputElement | null;
 if (!$input) throw new Error("Nao achou input");
 
-class Command {
-  static isCommand(m: string) {
-    return m.startsWith("/");
-  }
-}
-
-class Message {
-  text: string;
-
-  constructor(text: string) {
-    this.text = text.trim();
-  }
-}
-
 $input.addEventListener("keydown", (e) => {
-  if (e.code !== "Enter") return;
+  if (e.code !== "Enter" || e.shiftKey) return;
+  e.preventDefault();
 
-  const message = new Message($input.value);
-  const isCommand = Command.isCommand(message.text);
+  const value = $input.value;
+  const text: Message | Command = Command.isCommand(value)
+    ? new Command(value)
+    : new Message(value);
 
-  if (isCommand) {
-    const command = new Command();
+  if (text instanceof Command) text.run();
 
-    return console.log("command", command);
-  }
-
-  console.log("enviado", message);
+  text.send();
 });
