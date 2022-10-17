@@ -26,6 +26,7 @@
     "@types/mime": "^3.0.1",
     "@types/node": "^18.11.0",
     "@types/ws": "^8.5.3",
+    "assert": "^2.0.0",
     "concurrently": "^7.4.0",
     "eslint": "^8.25.0",
     "mime": "^3.0.0",
