@@ -43,13 +43,11 @@ export const r = new Action("r", (dado: string) => {
     "Dado inválido"
   );
 
-  const dados: number[] = [];
-
   const rolar = () => range(1, +lados);
 
-  for (let i = 0; i < Number(vezes); i++) dados.push(rolar());
-
+  const dados: number[] = [...Array(+vezes)].map(() => rolar());
   const total = dados.reduce((a, b) => a + b, 0);
+
   const format = `{${dados}} = ${total}`;
 
   enviar(format, br);
