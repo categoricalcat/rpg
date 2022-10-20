@@ -1,4 +1,3 @@
-import { send } from '../send';
 import roll from './roll';
 import yell from './yell';
 
@@ -24,6 +23,5 @@ class Action<F extends FN> {
 
 Action.create('!', yell);
 Action.create('r', roll);
-Action.create('f', () => send('ficha aberta'));
 
 export default Action;

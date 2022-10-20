@@ -1,16 +1,12 @@
 import assert from 'assert';
 import { createServer } from 'http';
-import { WebSocketServer } from 'ws';
+import Command from '@shared/Command';
+import WebSocket, { WebSocketServer } from 'ws';
 import serve from './serve';
 
-const isProd = process.env['NODE_ENV'] === 'production';
-const port = isProd ? 80 : 9876;
-
-export const domain = isProd ? '0.0.0.0' : '0.0.0.0';
-
-export const origin = isProd
-  ? 'https://walze.github.io/rpg'
-  : 'http://localhost:6789';
+export const port = 9876;
+export const domain = '0.0.0.0';
+export const origin = 'http://localhost:9876';
 
 const server = createServer();
 
@@ -25,7 +21,7 @@ server.on('request', (req, res) => {
   const { url } = req;
   assert(url, 'url is undefined');
 
-  const path = !url?.includes('.') ? `${url}/index.html` : url;
+  const path = !url?.includes('.') ? `${url}index.html` : url;
   if (!path) throw new Error('no url');
 
   try {
@@ -43,9 +39,16 @@ const ws = new WebSocketServer({ server });
 ws.on('connection', (client) => {
   console.log('connected');
 
-  client.on('message', (data) => {
-    console.log('received: %s', data);
-  });
+  client.on('message', (data: string, binary) => {
+    const isCommand = Command.isCommand(data);
 
-  client.send('server response');
+    // lidar com comando
+    console.log(isCommand);
+
+    ws.clients.forEach((c) => {
+      if (c.readyState !== WebSocket.OPEN) return;
+
+      c.send(data, { binary });
+    });
+  });
 });

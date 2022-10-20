@@ -1,12 +1,14 @@
 import Action from './Action';
-import Message from './Message';
+import Message from '../client/Message';
 
 export default class Command extends Message {
   command: string;
   args: string[];
 
-  constructor (text: string) {
-    if (!Command.isCommand(text)) { throw new Error('Comando deve começar com /'); }
+  constructor(text: string) {
+    if (!Command.isCommand(text)) {
+      throw new Error('Comando deve começar com /');
+    }
 
     super(text);
 
@@ -21,7 +23,7 @@ export default class Command extends Message {
     Action.all[this.command]?.fn(...this.args);
   };
 
-  static isCommand (m: string) {
+  static isCommand(m: string) {
     return m.startsWith('/');
   }
 }

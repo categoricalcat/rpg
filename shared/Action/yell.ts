@@ -1,4 +1,4 @@
-import { send } from '../send';
+import { send } from '../../client/send';
 
 export default (...args: string[]) => {
   const text = args.join(' ').toUpperCase() + '!!!';
