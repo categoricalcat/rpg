@@ -1,12 +1,18 @@
+import path from 'path';
 import { defineConfig } from 'vite';
 
-export default defineConfig({
+export default defineConfig(() => ({
   root: 'client',
   logLevel: 'info',
   define: {
     'process.env': {
       NODE_ENV: JSON.stringify(process.env['NODE_ENV']),
     },
+  },
+  resolve: {
+    alias: [
+      { find: '@', replacement: path.resolve(__dirname, './') },
+    ],
   },
   server: {
     port: 6789,
@@ -24,10 +30,10 @@ export default defineConfig({
     assetsDir: './',
     rollupOptions: {
       output: {
-        manualChunks (id) {
+        manualChunks(id) {
           if (id.includes('node_modules')) return id;
         },
       },
     },
   },
-});
+}));

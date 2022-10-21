@@ -2,7 +2,7 @@ import assert from 'assert';
 import { createServer } from 'http';
 import Command from '@shared/Command';
 import WebSocket, { WebSocketServer } from 'ws';
-import serve from './serve';
+import serve from '@server/serve';
 
 export const port = 9876;
 export const domain = '0.0.0.0';

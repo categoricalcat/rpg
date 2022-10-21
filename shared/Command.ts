@@ -1,7 +1,6 @@
 import Action from './Action';
-import Message from '../client/Message';
 
-export default class Command extends Message {
+export default class Command {
   command: string;
   args: string[];
 
@@ -9,8 +8,6 @@ export default class Command extends Message {
     if (!Command.isCommand(text)) {
       throw new Error('Comando deve começar com /');
     }
-
-    super(text);
 
     const [command, ...args] = text.split(' ');
     if (!command) throw new Error('Comando invalido');

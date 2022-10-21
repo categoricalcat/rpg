@@ -1,6 +1,6 @@
+import random from '@shared/helpers/random';
+
 import assert from 'assert';
-import random from '../random';
-import { br, send } from '../send';
 
 const range = (a: number, b: number) =>
   Math.floor(random() * (b - a + 1)) + a;
@@ -27,5 +27,5 @@ export default (...args: string[]) => {
   const rolls = getRolls(text);
   const formatted = format(rolls);
 
-  send(`Rolando ${text}...`, br(), formatted, br());
+  console.log(formatted);
 };
