@@ -1,7 +1,7 @@
 import assert from 'assert';
 import { createServer } from 'http';
 import Command from '@shared/Command';
-import WebSocket, { WebSocketServer } from 'ws';
+import { WebSocketServer, OPEN, type WebSocket } from 'ws';
 import serve from '@server/serve';
 
 export const port = 9876;
@@ -36,22 +36,25 @@ server.on('request', (req, res) => {
 
 const ws = new WebSocketServer({ server });
 
+const sendMessage =
+  (data: Buffer, binary: boolean) => (c: WebSocket) => {
+    if (c.readyState !== OPEN) return;
+    const text = data.toString();
+
+    const isCommand = Command.isCommand(text);
+
+    const newText = isCommand
+      ? new Command(text).run() ?? 'Invalid Command'
+      : text;
+
+    c.send(newText, { binary, compress: true });
+  };
+
 ws.on('connection', (client) => {
   console.log('connected');
 
   client.on('message', (data: Buffer, binary) => {
-    const text = data.toString();
-    const isCommand = Command.isCommand(text);
-
-    ws.clients.forEach((c) => {
-      if (c.readyState !== WebSocket.OPEN) return;
-
-      const newText = isCommand
-        ? new Command(text).run() ?? 'Invalid Command'
-        : text;
-
-      c.send(newText, { binary, compress: true });
-    });
+    ws.clients.forEach(sendMessage(data, binary));
   });
 });
 
