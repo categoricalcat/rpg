@@ -39,10 +39,9 @@ const ws = new WebSocketServer({ server });
 ws.on('connection', (client) => {
   console.log('connected');
 
-  client.on('message', (data: string, binary) => {
-    const isCommand = Command.isCommand(data);
-
-    // lidar com comando
+  client.on('message', (data: Buffer, binary) => {
+    const text = data.toString();
+    const isCommand = Command.isCommand(text);
     console.log(isCommand);
 
     ws.clients.forEach((c) => {
@@ -51,4 +50,19 @@ ws.on('connection', (client) => {
       c.send(data, { binary });
     });
   });
+});
+
+server.on('error', (e) => {
+  console.log('WebServer Error');
+  console.error(e);
+});
+
+ws.on('error', (e) => {
+  console.log('WebSocket Error');
+  console.error(e);
+});
+
+process.on('uncaughtException', (e) => {
+  console.log('Fatal Error');
+  console.error(e);
 });

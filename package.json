@@ -20,7 +20,7 @@
     "sort": "npx sort-package-json",
     "start": "concurrently -n client,server 'pnpm:start:client' 'pnpm:start:server'",
     "start:client": "vite",
-    "start:server": "ts-node-dev -r tsconfig-paths/register -T server/index.ts"
+    "start:server": "tsnd --respawn -r tsconfig-paths/register -T server/index.ts"
   },
   "dependencies": {
     "@types/mime": "^3.0.1",
