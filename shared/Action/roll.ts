@@ -27,5 +27,5 @@ export default (...args: string[]) => {
   const rolls = getRolls(text);
   const formatted = format(rolls);
 
-  console.log(formatted);
+  return formatted;
 };

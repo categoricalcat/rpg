@@ -1,5 +1,2 @@
-export default (...args: string[]) => {
-  const text = args.join(' ').toUpperCase() + '!!!';
-
-  console.log(text);
-};
+export default (...args: string[]) =>
+  args.join(' ').toUpperCase() + '!!!';

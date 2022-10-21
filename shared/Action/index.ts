@@ -1,7 +1,7 @@
 import roll from './roll';
 import yell from './yell';
 
-type FN = (...args: any[]) => void;
+type FN = (...args: string[]) => string;
 
 class Action<F extends FN> {
   static all: Record<string, Action<FN>> = {};

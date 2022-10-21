@@ -16,9 +16,7 @@ export default class Command {
     this.args = args;
   }
 
-  run = () => {
-    Action.all[this.command]?.fn(...this.args);
-  };
+  run = () => Action.all[this.command]?.fn(...this.args);
 
   static isCommand(m: string) {
     return m.startsWith('/');

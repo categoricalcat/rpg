@@ -7,7 +7,9 @@ ws.addEventListener('open', (e) => {
 ws.addEventListener('message', (e) => {
   const { data } = e;
 
-  document.body.prepend(new Date().toLocaleString(), data);
+  const br = document.createElement('br');
+
+  document.body.prepend(new Date().toLocaleString(), ' | ', data, br);
 });
 
 export default ws;

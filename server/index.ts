@@ -42,12 +42,15 @@ ws.on('connection', (client) => {
   client.on('message', (data: Buffer, binary) => {
     const text = data.toString();
     const isCommand = Command.isCommand(text);
-    console.log(isCommand);
 
     ws.clients.forEach((c) => {
       if (c.readyState !== WebSocket.OPEN) return;
 
-      c.send(data, { binary });
+      const newText = isCommand
+        ? new Command(text).run() ?? 'Invalid Command'
+        : text;
+
+      c.send(newText, { binary, compress: true });
     });
   });
 });
