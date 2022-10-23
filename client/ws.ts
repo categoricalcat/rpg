@@ -7,6 +7,7 @@ secretReset(() => {
 
 if (!localStorage.getItem('token')) {
   const nToken = prompt('Enter token');
+
   if (!nToken) {
     alert('No token provided, try again. Reloading page...');
     window.location.reload();

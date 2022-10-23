@@ -1,3 +1,5 @@
+import '@server/db/setup';
+
 import assert from 'assert';
 import Command from '@shared/Command';
 import { WebSocketServer, OPEN, type WebSocket } from 'ws';
