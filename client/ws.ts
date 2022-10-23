@@ -35,12 +35,19 @@ ws.addEventListener('open', (e) => {
   console.log('connected', e);
 });
 
-ws.addEventListener('message', (e) => {
-  const { data } = e;
+ws.addEventListener(
+  'message',
+  // eslint-disable-next-line @typescript-eslint/no-misused-promises
+  async ({ data }: MessageEvent<Blob>) => {
+    const text = await data.text();
 
-  const br = document.createElement('br');
-
-  document.body.prepend(new Date().toLocaleString(), ' | ', data, br);
-});
+    document.body.prepend(
+      new Date().toLocaleString(),
+      ' | ',
+      text,
+      document.createElement('br'),
+    );
+  },
+);
 
 export default ws;

@@ -1,14 +1,15 @@
 import '@server/db/setup';
 
 import assert from 'assert';
-import Command from '@shared/Command';
-import { WebSocketServer, OPEN, type WebSocket } from 'ws';
 import serve from '@server/serve';
 import { server, port, domain } from './config';
 
 import { compress } from 'lzutf8';
 
 import lt from '@server/lt';
+
+import { broadcast, ws } from '@server/ws';
+import type { WebSocket } from 'ws';
 
 // eslint-disable-next-line @typescript-eslint/no-misused-promises
 server.listen(port, domain, 512, async () => {
@@ -22,6 +23,25 @@ server.listen(port, domain, 512, async () => {
     tunneling >>= ${url}
     NODE_ENV >>= ${env}
     `);
+});
+
+const clients = new Set<WebSocket>();
+
+server.on('upgrade', function upgrade(req, socket, head) {
+  ws.handleUpgrade(req, socket, head, function done(ws) {
+    ws.emit('connection', ws, req);
+    ws.emit('open');
+
+    clients.add(ws);
+
+    ws.on('message', (data: Buffer) => {
+      clients.forEach(broadcast(data, true));
+    });
+
+    ws.on('close', () => {
+      clients.delete(ws);
+    });
+  });
 });
 
 server.on('request', (req, res) => {
@@ -41,37 +61,8 @@ server.on('request', (req, res) => {
   }
 });
 
-const ws = new WebSocketServer({ server });
-
-const sendMessage =
-  (data: Buffer, binary: boolean) => (c: WebSocket) => {
-    if (c.readyState !== OPEN) return;
-    const text = data.toString();
-
-    const isCommand = Command.isCommand(text);
-
-    const newText = isCommand
-      ? new Command(text).run() ?? 'Invalid Command'
-      : text;
-
-    c.send(newText, { binary, compress: true });
-  };
-
-ws.on('connection', (client) => {
-  console.log('connected');
-
-  client.on('message', (data: Buffer, binary) => {
-    ws.clients.forEach(sendMessage(data, binary));
-  });
-});
-
 server.on('error', (e) => {
   console.log('WebServer Error');
-  console.error(e);
-});
-
-ws.on('error', (e) => {
-  console.log('WebSocket Error');
   console.error(e);
 });
 
