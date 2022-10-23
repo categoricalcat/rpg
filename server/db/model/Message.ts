@@ -4,6 +4,7 @@ class Message {
   text: string;
   sender: string;
   receiver: string;
+  createdAt: string = new Date().toISOString();
 
   constructor(text: string, sender: string, receiver: string) {
     this.text = text.trim();

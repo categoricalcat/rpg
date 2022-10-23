@@ -1,5 +1,6 @@
 import './main.scss';
 import Message from './Message';
+import type MessageModel from '@server/db/model/Message';
 
 export const $ = document.querySelector.bind(document);
 export const $$ = document.querySelectorAll.bind(document);
@@ -18,6 +19,15 @@ $input.addEventListener('keydown', (e) => {
 });
 
 fetch('http://localhost:9876/messages')
-  .then(async (r) => await r.json())
-  .then(console.log)
+  .then(async (r) => (await r.json()) as MessageModel[])
+  .then((ms) => {
+    ms.forEach((m) => {
+      document.body.prepend(
+        m.createdAt,
+        ' | ',
+        m.text,
+        document.createElement('br'),
+      );
+    });
+  })
   .catch(console.warn);
