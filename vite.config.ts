@@ -1,9 +1,26 @@
 import path from 'path';
 import { defineConfig } from 'vite';
 
+import pkg from './package.json';
+
+const allDeps = Object.keys({
+  ...pkg.dependencies,
+  ...pkg.devDependencies,
+});
+
+const target = ['chrome100'];
+
 export default defineConfig(() => ({
   root: 'client',
   logLevel: 'info',
+  esbuild: {
+    target,
+  },
+  optimizeDeps: {
+    esbuildOptions: {
+      target,
+    },
+  },
   define: {
     'process.env': {
       NODE_ENV: JSON.stringify(process.env['NODE_ENV']),
@@ -20,18 +37,17 @@ export default defineConfig(() => ({
     strictPort: true,
   },
   build: {
+    target,
     polyfillModulePreload: false,
-    target: 'esnext',
     manifest: true,
     sourcemap: true,
-    cssTarget: 'esnext',
     outDir: '../docs',
     emptyOutDir: true,
     assetsDir: './',
     rollupOptions: {
       output: {
         manualChunks(id) {
-          if (id.includes('node_modules')) return id;
+          return allDeps.find((dep) => id.includes(dep));
         },
       },
     },
