@@ -1,4 +1,5 @@
 .cert/*.pem
+docs
 
 # Logs
 logs
