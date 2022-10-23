@@ -15,10 +15,10 @@ server.listen(port, domain, 512, async () => {
   const env = process.env['NODE_ENV'] as string;
 
   console.log(`
-    listening ==> https://${domain}:${port}
-    token ==> ${c}
-    tunneling ==> ${url}
-    NODE_ENV ==> ${env}
+    listening >>= http://${domain}:${port}
+    token >>= ${c}
+    tunneling >>= ${url}
+    NODE_ENV >>= ${env}
     `);
 });
 
