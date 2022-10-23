@@ -10,6 +10,7 @@ import lt from '@server/lt';
 
 import { broadcast, ws } from '@server/ws';
 import type { WebSocket } from 'ws';
+import Message from './db/controller/Message';
 
 // eslint-disable-next-line @typescript-eslint/no-misused-promises
 server.listen(port, domain, 512, async () => {
@@ -47,6 +48,15 @@ server.on('upgrade', function upgrade(req, socket, head) {
 server.on('request', (req, res) => {
   const { url } = req;
   assert(url, 'url is undefined');
+
+  res.setHeader('Access-Control-Allow-Origin', '*');
+
+  if (url === '/messages') {
+    Message.getAll()
+      .then((ms) => res.end(JSON.stringify(ms)))
+      .catch(console.warn);
+    return;
+  }
 
   const path = !url?.includes('.') ? `${url}index.html` : url;
   if (!path) throw new Error('no url');

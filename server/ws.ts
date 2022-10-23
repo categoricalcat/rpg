@@ -17,8 +17,7 @@ export const broadcast =
       ? new Command(text).run() ?? 'Invalid Command'
       : text;
 
-    const m = new Message(newText, 'sender', 'receiver');
-    void m.create();
+    Message.create(newText, 'me', 'you').catch(console.warn);
 
     c.send(newText, { binary, compress: true });
   };

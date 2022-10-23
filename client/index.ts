@@ -16,3 +16,8 @@ $input.addEventListener('keydown', (e) => {
 
   msg.send();
 });
+
+fetch('http://localhost:9876/messages')
+  .then(async (r) => await r.json())
+  .then(console.log)
+  .catch(console.warn);

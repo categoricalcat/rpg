@@ -11,8 +11,10 @@ class Message {
     this.receiver = receiver.trim();
   }
 
-  create() {
-    return knex('messages').insert(this);
+  static create(text: string, sender: string, receiver: string) {
+    return knex('messages').insert(
+      new Message(text, sender, receiver),
+    );
   }
 
   static dropTable() {
