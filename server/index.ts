@@ -1,21 +1,26 @@
 import assert from 'assert';
-import { createServer } from 'http';
 import Command from '@shared/Command';
 import { WebSocketServer, OPEN, type WebSocket } from 'ws';
 import serve from '@server/serve';
+import { server, port, domain } from './config';
 
-export const port = 9876;
-export const domain = '0.0.0.0';
-export const origin = 'http://localhost:9876';
+import { compress } from 'lzutf8';
 
-const server = createServer();
+import lt from '@server/lt';
 
-server.listen(port, domain, 512, () =>
-  console.log(
-    `listening ==> https://${domain}:${port}`,
-    process.env['NODE_ENV'],
-  ),
-);
+// eslint-disable-next-line @typescript-eslint/no-misused-promises
+server.listen(port, domain, 512, async () => {
+  const url = await lt.listen();
+  const c = compress(url, { outputEncoding: 'Base64' }) as string;
+  const env = process.env['NODE_ENV'] as string;
+
+  console.log(`
+    listening ==> https://${domain}:${port}
+    token ==> ${c}
+    tunneling ==> ${url}
+    NODE_ENV ==> ${env}
+    `);
+});
 
 server.on('request', (req, res) => {
   const { url } = req;

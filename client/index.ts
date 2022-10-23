@@ -1,3 +1,4 @@
+import './main.scss';
 import Message from './Message';
 
 export const $ = document.querySelector.bind(document);
