@@ -1,6 +1,7 @@
 import './main.scss';
 import Message from './Message';
 import type MessageModel from '@server/db/model/Message';
+import { analyzeMetafile } from 'esbuild';
 
 export const $ = document.querySelector.bind(document);
 export const $$ = document.querySelectorAll.bind(document);
@@ -12,10 +13,11 @@ $input.addEventListener('keydown', (e) => {
   if (e.code !== 'Enter' || e.shiftKey) return;
   e.preventDefault();
 
-  const value = $input.value;
+  const {value} = $input;
   const msg = new Message(value);
 
   msg.send();
+  $input.value = "";
 });
 
 fetch('http://localhost:9876/messages')
