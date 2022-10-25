@@ -36,7 +36,7 @@ server.on('upgrade', function upgrade(req, socket, head) {
     clients.add(ws);
 
     ws.on('message', (data: Buffer) => {
-      clients.forEach(broadcast(data, true));
+      clients.forEach(broadcast(data));
     });
 
     ws.on('close', () => {

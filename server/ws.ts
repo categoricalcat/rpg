@@ -5,7 +5,7 @@ import Message from './db/model/Message';
 export const ws = new WebSocketServer({ noServer: true });
 
 export const broadcast =
-  (data: Buffer, binary: boolean) => (c: WebSocket) => {
+  (data: Buffer) => (c: WebSocket) => {
     console.log(data);
 
     if (c.readyState !== OPEN) return;
@@ -19,7 +19,7 @@ export const broadcast =
 
     Message.create(newText, 'me', 'you').catch(console.warn);
 
-    c.send(newText, { binary, compress: true });
+    c.send(newText, { binary:true, compress: true });
   };
 
 ws.on('error', (e) => {
