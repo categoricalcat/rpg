@@ -38,7 +38,9 @@ export default defineConfig(() => ({
   },
   build: {
     target,
-    polyfillModulePreload: false,
+    modulePreload: {
+      polyfill: false,
+    },
     manifest: true,
     sourcemap: true,
     outDir: '../docs',

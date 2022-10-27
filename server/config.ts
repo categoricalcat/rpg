@@ -4,12 +4,21 @@ import cors from 'cors';
 import lt from './lt';
 import { compress } from 'lzutf8';
 import { createServer } from 'http';
+import { Server } from 'ws';
+import { onConnection } from './ws';
 
 export const port = 9876;
 export const domain = 'localhost';
 export const origin = 'http://localhost:9876';
 export const app = express() as Express;
 export const server = createServer(app);
+export const ws = new Server({ noServer: true });
+
+server.on('upgrade', (request, socket, head) => {
+  ws.handleUpgrade(request, socket, head, (socket) => {
+    ws.emit('connection', socket, request);
+  });
+});
 
 app.use(cors());
 
@@ -26,3 +35,5 @@ server.listen(port, async () => {
     NODE_ENV >>= ${env}
     `);
 });
+
+ws.on('connection', onConnection);
