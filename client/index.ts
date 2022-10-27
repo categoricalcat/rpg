@@ -43,3 +43,26 @@ fetch('http://localhost:9876/messages')
       });
   })
   .catch(console.warn);
+
+const $file = $('#file') as HTMLInputElement;
+
+$file.addEventListener('change', (e) => {
+  const target = e.target as HTMLInputElement;
+  const file = target?.files?.[0];
+  if (!file) return;
+
+  const reader = new FileReader();
+  reader.readAsDataURL(file);
+
+  reader.addEventListener('loadend', (e) => {
+    const r = reader.result as string;
+
+    const img = createImage(r);
+    target.parentElement?.append(img);
+  });
+
+  fetch('http://localhost:9876/file', {
+    method: 'POST',
+    body: file,
+  }).catch(console.warn);
+});
