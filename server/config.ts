@@ -8,8 +8,6 @@ import { Server } from 'ws';
 import { onConnection } from './ws';
 
 export const port = 9876;
-export const domain = 'localhost';
-export const origin = 'http://localhost:9876';
 export const app = express() as Express;
 export const server = createServer(app);
 export const ws = new Server({ noServer: true });
@@ -30,7 +28,7 @@ server.listen(port, async () => {
   const env = process.env['NODE_ENV'] as string;
 
   console.log(`
-    listening >>= http://${domain}:${port}
+    listening >>= http://localhost:${port}
     token >>= ${c}
     tunneling >>= ${url}
     NODE_ENV >>= ${env}
