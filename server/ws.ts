@@ -2,7 +2,7 @@ import Command from '@shared/Command';
 import { OPEN, WebSocket } from 'ws';
 import Message from './db/model/Message';
 
-export const broadcast = (data: Buffer) => (c: WebSocket) => {
+export const broadcast = (c: WebSocket) => (data: Buffer) => {
   console.log(data);
 
   if (c.readyState !== OPEN) return;
@@ -20,5 +20,5 @@ export const broadcast = (data: Buffer) => (c: WebSocket) => {
 };
 
 export const onConnection = (socket: WebSocket) => {
-  socket.on('message', broadcast);
+  socket.on('message', broadcast(socket));
 };
