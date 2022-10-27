@@ -9,8 +9,6 @@ if (!localStorage.getItem('token')) {
   const nToken = prompt('Enter token');
 
   if (!nToken) {
-    alert('No token provided, try again. Reloading page...');
-    window.location.reload();
     throw new Error('No token provided');
   }
 
@@ -23,13 +21,6 @@ const token =
   'ws://localhost:9876';
 
 const ws = new window.WebSocket(token);
-
-ws.addEventListener('error', () => {
-  localStorage.removeItem('token');
-  alert('Invalid token, try again. Reloading page...');
-  window.location.reload();
-  throw new Error('Invalid token');
-});
 
 ws.addEventListener('open', (e) => {
   console.log('connected', e);

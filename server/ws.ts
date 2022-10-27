@@ -1,28 +1,31 @@
-import Command from '@shared/Command';
-import { WebSocketServer, OPEN, type WebSocket } from 'ws';
+// import Command from '@shared/Command';
+import { Server } from 'socket.io';
+import { server } from './config';
 import Message from './db/model/Message';
 
-export const ws = new WebSocketServer({ noServer: true });
+export const io = new Server(server);
+io.listen(server);
 
-export const broadcast =
-  (data: Buffer) => (c: WebSocket) => {
-    console.log(data);
+// export const broadcast = (data: Buffer) => (c: WebSocket) => {
+//   console.log(data);
 
-    if (c.readyState !== OPEN) return;
-    const text = data.toString();
+//   if (c.readyState !== OPEN) return;
+//   const text = data.toString();
 
-    const isCommand = Command.isCommand(text);
+//   const isCommand = Command.isCommand(text);
 
-    const newText = isCommand
-      ? new Command(text).run() ?? 'Invalid Command'
-      : text;
+//   const newText = isCommand
+//     ? new Command(text).run() ?? 'Invalid Command'
+//     : text;
 
-    Message.create(newText, 'me', 'you').catch(console.warn);
+//   Message.create(newText, 'me', 'you').catch(console.warn);
 
-    c.send(newText, { binary:true, compress: true });
-  };
+//   c.send(newText, { binary: true, compress: true });
+// };
 
-ws.on('error', (e) => {
-  console.log('WebSocket Error');
-  console.error(e);
+io.on('connection', (socket) => {
+  socket.on('message', (m: Message) => {
+    console.log(m);
+    socket.broadcast.emit('message', m);
+  });
 });
