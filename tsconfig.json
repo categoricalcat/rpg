@@ -4,7 +4,9 @@
     "client/**/*",
     "server/**/*",
     "shared/**/*",
+    "migrations/**/*",
     "package.json",
+    "./knexfile.ts",
     "./vite.config.ts"
   ],
   "compilerOptions": {

@@ -14,6 +14,7 @@
   "author": "Wallace Fares, Juan Dornelles, Jaime Barbosa",
   "main": "docs/index.html",
   "scripts": {
+    "migrate": "knex migrate:latest",
     "build": "vite build --base ./",
     "docker": "bash ./scripts/start.bash",
     "preinstall": "ncu",

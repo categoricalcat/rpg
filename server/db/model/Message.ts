@@ -17,20 +17,6 @@ class Message {
       new Message(text, sender, receiver),
     );
   }
-
-  static dropTable() {
-    return knex.schema.dropTableIfExists('messages');
-  }
-
-  static createTable() {
-    return knex.schema.createTable('messages', function (table) {
-      table.increments().notNullable();
-      table.text('text').notNullable();
-      table.text('sender', 'tinytext').notNullable();
-      table.text('receiver', 'tinytext').notNullable();
-      table.timestamps(true, true, true);
-    });
-  }
 }
 
 export default Message;
