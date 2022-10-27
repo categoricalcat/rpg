@@ -7,7 +7,7 @@ export const $ = document.querySelector.bind(document);
 export const $$ = document.querySelectorAll.bind(document);
 const $main = $('main') as HTMLElement;
 
-const $input = $<HTMLInputElement>('#chat');
+const $input = $<HTMLInputElement>('#message-input');
 if ($input === null) throw new Error('No input found');
 if ($main === null) throw new Error('No main found');
 
@@ -44,25 +44,29 @@ fetch('http://localhost:9876/messages')
   })
   .catch(console.warn);
 
-const $file = $('#file') as HTMLInputElement;
+const $form = $('form') as HTMLFormElement;
 
-$file.addEventListener('change', (e) => {
+$form.addEventListener('input', (e) => {
   const target = e.target as HTMLInputElement;
+  const body = new FormData($form);
+
+  if (target.name !== 'image') return;
+
   const file = target?.files?.[0];
   if (!file) return;
 
   const reader = new FileReader();
   reader.readAsDataURL(file);
 
-  reader.addEventListener('loadend', (e) => {
+  reader.addEventListener('loadend', () => {
     const r = reader.result as string;
 
     const img = createImage(r);
     target.parentElement?.append(img);
   });
 
-  fetch('http://localhost:9876/file', {
+  fetch('http://localhost:9876/upload', {
     method: 'POST',
-    body: file,
+    body,
   }).catch(console.warn);
 });

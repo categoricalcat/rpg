@@ -13,7 +13,7 @@ export const server = createServer(app);
 export const ws = new Server({ noServer: true });
 ws.on('connection', onConnection);
 
-app.use(cors());
+app.use(cors()); // tnc
 
 server.on('upgrade', (request, socket, head) => {
   ws.handleUpgrade(request, socket, head, (socket) => {
