@@ -3,9 +3,8 @@ import { OPEN, WebSocket } from 'ws';
 import Message from './db/model/Message';
 
 export const broadcast = (c: WebSocket) => (data: Buffer) => {
-  console.log(data);
-
   if (c.readyState !== OPEN) return;
+
   const text = data.toString();
 
   const isCommand = Command.isCommand(text);
