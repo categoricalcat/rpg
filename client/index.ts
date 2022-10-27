@@ -23,7 +23,7 @@ $input.addEventListener('keydown', (e) => {
 });
 
 const isImage = (url: string) =>
-  url.match(/\.(jpeg|jpg|gif|png)$/) != null;
+  url.match(/\.(jpeg|jpg|gif|png|svg)$/) != null;
 
 fetch('http://localhost:9876/messages')
   .then(async (r) => (await r.json()) as MessageModel[])
