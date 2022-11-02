@@ -1,23 +1,29 @@
 /* eslint-disable @typescript-eslint/no-misused-promises */
-import fs from 'fs';
+import fs, { readFileSync } from 'fs';
 import path from 'path';
 import express from 'express';
 import { createServer as createViteServer } from 'vite';
+import { render } from 'mustache';
+import allFiles from './vite/helpers/allFiles';
 
 const app = express();
 app.listen(5173, () => console.log('http://localhost:5173'));
 
-async function createServer() {
-  // Create Vite server in middleware mode and configure the app type as
-  // 'custom', disabling Vite's own HTML serving logic so parent server
-  // can take control
+const folders = allFiles('**/*.html', {
+  cwd: 'client/component',
+}).map((f) => [
+  f.replace(/\/?(index)?\.html$/, ''),
+  readFileSync(path.resolve(__dirname, 'client/component', f), {
+    encoding: 'utf8',
+  }),
+]);
+
+const createServer = async () => {
   const vite = await createViteServer({
     server: { middlewareMode: true },
     appType: 'custom',
   });
 
-  // use vite's connect instance as middleware
-  // if you use your own express router (express.Router()), you should use router.use
   app.use(vite.middlewares);
 
   app.use('*', async (req, res, next) => {
@@ -30,24 +36,21 @@ async function createServer() {
       );
 
       const template = await vite.transformIndexHtml(url, index);
-
-      // const { render } = await vite.ssrLoadModule(
-      //   '/src/entry-server.js',
-      // );
-
-      // const appHtml = await render(url);
-
-      // const html = template.replace(`<!--ssr-outlet-->`, appHtml);
+      const compiled = render(
+        template,
+        {},
+        Object.fromEntries(folders),
+      );
 
       res
         .status(200)
         .set({ 'Content-Type': 'text/html' })
-        .end(template);
+        .end(compiled);
     } catch (e) {
-      vite.ssrFixStacktrace(e as any);
+      vite.ssrFixStacktrace(e as Error);
       next(e);
     }
   });
-}
+};
 
 createServer().catch(console.error);
