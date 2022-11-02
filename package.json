@@ -12,7 +12,7 @@
   },
   "license": "ISC",
   "author": "Wallace Fares, Juan Dornelles, Jaime Barbosa",
-  "main": "docs/index.html",
+  "main": "dist/server/index.js",
   "scripts": {
     "migrate": "knex migrate:latest",
     "build": "vite build --base ./",
@@ -20,8 +20,8 @@
     "preinstall": "ncu",
     "sort": "npx sort-package-json",
     "start": "concurrently -n client,server 'pnpm:start:client' 'pnpm:start:server'",
-    "start:client": "vite",
-    "start:server": "tsnd --rs --respawn -r tsconfig-paths/register -P ./tsconfig.server.json -T server/index.ts"
+    "start:client": "ts-node-esm -P tsconfig.server.json vite.server.ts",
+    "start:server": "ts-node -r tsconfig-paths/register dist/server/index.js"
   },
   "dependencies": {
     "@types/cors": "^2.8.12",
@@ -38,6 +38,7 @@
     "mysql2": "^2.3.3",
     "node-fetch": "^3.2.10",
     "npm-check-updates": "^16.3.16",
+    "postcss-plugin": "^1.0.0",
     "sass": "^1.55.0",
     "socket.io": "^4.5.3",
     "sqlite3": "^5.1.2",

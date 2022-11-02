@@ -1,7 +1,12 @@
 {
   "extends": "./tsconfig",
   "compilerOptions": {
-    "module": "commonjs"
+    "module": "CommonJS",
+    "target": "ESNext",
+    "moduleResolution": "Node",
+    "outDir": "dist",
   },
-  "include": ["server/**/*"]
+  "include": [
+    "server/**/*"
+  ]
 }
