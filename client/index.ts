@@ -1,7 +1,6 @@
-import './main.scss';
 import Message from './Message';
 import type MessageModel from '@server/db/model/Message';
-import { createImage, createP } from './elements';
+import { createImage, createP } from './createElement';
 import { $input, $form, $main } from './$s';
 import { isImage } from './helpers/isImage';
 
