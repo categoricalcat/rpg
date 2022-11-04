@@ -1,5 +1,6 @@
 import path from 'path';
 import { defineConfig } from 'vite';
+import preact from '@preact/preset-vite';
 
 import pkg from './package.json';
 
@@ -11,6 +12,7 @@ const allDeps = Object.keys({
 const target = ['chrome100'];
 
 export default defineConfig(() => ({
+  plugins: [preact()],
   root: 'client',
   logLevel: 'info',
   esbuild: {
@@ -29,6 +31,16 @@ export default defineConfig(() => ({
   resolve: {
     alias: [
       { find: '@', replacement: path.resolve(__dirname, './') },
+      { find: 'react', replacement: 'preact/compat' },
+      {
+        find: 'react-dom/test-utils',
+        replacement: 'preact/test-utils',
+      },
+      { find: 'react-dom', replacement: 'preact/compat' },
+      {
+        find: 'react/jsx-runtime',
+        replacement: 'preact/jsx-runtime',
+      },
     ],
   },
   server: {
