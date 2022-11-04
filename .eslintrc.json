@@ -23,6 +23,8 @@
     "sourceType": "module"
   },
   "rules": {
+    "multiline-ternary": "off",
+    "@typescript-eslint/member-delimiter-style": "off",
     "@typescript-eslint/indent": "off",
     "quotes": [
       "error",

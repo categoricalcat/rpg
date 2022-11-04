@@ -21,14 +21,15 @@
     "sort": "npx sort-package-json",
     "start": "concurrently -n client,server 'pnpm:start:client' 'pnpm:start:server'",
     "start:client": "vite --force",
-    "start:server": "ts-node -r tsconfig-paths/register dist/server/index.js",
-    "dev": "nodemon --ext .ts,.html --watch src --watch vite.server.ts --exec 'pnpm start'"
+    "start:server": "ts-node -r tsconfig-paths/register server/index.ts",
+    "dev": "nodemon --ext .ts,.html --watch . --exec 'pnpm start'"
   },
   "dependencies": {
+    "@headlessui/react": "^1.7.4",
+    "@heroicons/react": "^2.0.13",
     "@preact/preset-vite": "^2.4.0",
     "@tailwindcss/forms": "^0.5.3",
     "@types/cors": "^2.8.12",
-    "@types/mustache": "^4.2.1",
     "assert": "^2.0.0",
     "concurrently": "^7.5.0",
     "cors": "^2.8.5",
@@ -40,7 +41,6 @@
     "lzutf8": "^0.6.3",
     "mime": "^3.0.0",
     "multer": "1.4.5-lts.1",
-    "mustache": "^4.2.0",
     "mysql2": "^2.3.3",
     "node-fetch": "^3.2.10",
     "npm-check-updates": "^16.3.16",
