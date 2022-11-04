@@ -2,12 +2,7 @@ import path from 'path';
 import { defineConfig } from 'vite';
 import preact from '@preact/preset-vite';
 
-import pkg from './package.json';
-
-const allDeps = Object.keys({
-  ...pkg.dependencies,
-  ...pkg.devDependencies,
-});
+import slugify from 'slugify';
 
 const target = ['chrome100'];
 
@@ -19,6 +14,8 @@ export default defineConfig(() => ({
     target,
   },
   optimizeDeps: {
+    disabled: false,
+    force: true,
     esbuildOptions: {
       target,
     },
@@ -50,18 +47,21 @@ export default defineConfig(() => ({
   },
   build: {
     target,
-    modulePreload: {
-      polyfill: false,
-    },
+    modulePreload: false,
     manifest: true,
     sourcemap: true,
-    outDir: '../docs',
+    outDir: '../dist',
     emptyOutDir: true,
     assetsDir: './',
     rollupOptions: {
       output: {
         manualChunks(id) {
-          return allDeps.find((dep) => id.includes(dep));
+          if (!id.includes('node_modules')) return;
+
+          return slugify(
+            id.split('/').pop()?.split('.').shift() ??
+              'vendor.js',
+          ).toLowerCase();
         },
       },
     },

@@ -1,4 +1,4 @@
-import ws from './ws';
+import socket from './socket';
 
 export default class Message {
   text: string;
@@ -8,6 +8,6 @@ export default class Message {
   }
 
   send() {
-    ws.send(this.text);
+    socket.send(this.text);
   }
 }
