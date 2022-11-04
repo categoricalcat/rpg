@@ -24,7 +24,7 @@ export default () => {
         rows={3}
         name="chat-message"
         id="chat-message"
-        className="overflow-hidden rounded-lg border border-gray-200 shadow-md focus-within:border-indigo-500 focus-within:ring-1 focus-within:ring-indigo-500 block w-full resize-none py-4 px-3 focus:ring-0 sm:text-sm"
+        className="bg-neutral-800 rounded-lg border border-neutral-700 focus-within:border-indigo-500 focus-within:ring-1 focus-within:ring-indigo-500 block w-full resize-none py-4 px-3 focus:ring-0 sm:text-sm"
         placeholder="Message @juan"
       />
 

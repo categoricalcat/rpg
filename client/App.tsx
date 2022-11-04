@@ -21,15 +21,12 @@ export const App = () => {
 
       <ul className="mt-6">
         {ms.map((m) => (
-          <li class="mb-2 flex flex-col items-start even:bg-gray-50 p-4 pb-5">
-            <h2
-              id="episode-5-title"
-              class="text-lg text-slate-900"
-            >
+          <li class="mb-2 flex flex-col items-start even:bg-neutral-800 p-4 pb-5">
+            <h2 class="text-lg">
               <span className="font-bold">{m.sender}</span> -{' '}
               <time
                 dateTime="2022-02-24T00:00:00.000Z"
-                class="order-first font-mono text-sm leading-7 text-slate-400"
+                class="font-mono text-sm leading-7 text-slate-400"
               >
                 {new Date(m.createdAt).toLocaleString()}
               </time>
