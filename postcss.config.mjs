@@ -1,9 +1,14 @@
+import * as forms from '@tailwindcss/forms';
+
 const tailwindcss = {
-  content: ['./client/index.html', './client/**/*.{js,ts,jsx,tsx}'],
+  content: [
+    './client/index.html',
+    './client/**/*.{js,ts,jsx,tsx}',
+  ],
   theme: {
     extend: {},
   },
-  plugins: [],
+  plugins: [forms],
 };
 
 export default {

@@ -29,27 +29,29 @@ const createServer = async () => {
   app.use('*', async (req, res, next) => {
     const url = req.originalUrl;
 
-    try {
-      const index = fs.readFileSync(
-        path.resolve(__dirname, 'client/index.html'),
-        'utf-8',
-      );
+    const index = fs.readFileSync(
+      path.resolve(__dirname, 'client/index.html'),
+      'utf-8',
+    );
 
-      const template = await vite.transformIndexHtml(url, index);
-      const compiled = render(
-        template,
-        {},
-        Object.fromEntries(folders),
-      );
+    const compiled = render(
+      index,
+      {},
+      Object.fromEntries(folders),
+    );
 
-      res
-        .status(200)
-        .set({ 'Content-Type': 'text/html' })
-        .end(compiled);
-    } catch (e) {
-      vite.ssrFixStacktrace(e as Error);
-      next(e);
-    }
+    vite
+      .transformIndexHtml(url, compiled)
+      .then((t) =>
+        res
+          .status(200)
+          .set({ 'Content-Type': 'text/html' })
+          .end(t),
+      )
+      .catch((e) => {
+        vite.ssrFixStacktrace(e as Error);
+        next(e);
+      });
   });
 };
 

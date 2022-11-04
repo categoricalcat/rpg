@@ -1,3 +1,5 @@
+import './index.scss';
+
 import Message from './Message';
 import type MessageModel from '@server/db/model/Message';
 import { createImage, createP } from './createElement';

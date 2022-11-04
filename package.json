@@ -25,6 +25,7 @@
     "dev": "nodemon --ext .ts,.html --watch src --watch vite.server.ts --exec 'pnpm start'"
   },
   "dependencies": {
+    "@tailwindcss/forms": "^0.5.3",
     "@types/cors": "^2.8.12",
     "@types/mustache": "^4.2.1",
     "assert": "^2.0.0",
