@@ -14,7 +14,7 @@ app.get('/messages', (_, res) => {
     .catch(console.warn);
 });
 
-app.post('/upload', upload.single('image'), (req, res) => {
+app.post('/upload', upload.single('file'), (req, res) => {
   console.log(req.file);
 
   res.send('ok');

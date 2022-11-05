@@ -21,11 +21,14 @@ export const App = () => {
 
       <ul className="mt-6 max-h-96 overflow-y-scroll">
         {ms.map((m) => (
-          <li className="mb-2 flex flex-col items-start p-4 pb-5">
+          <li
+            key={m.createdAt}
+            className="mb-2 flex flex-col items-start p-4 pb-5"
+          >
             <h2 className="text-lg">
               <span className="font-bold">{m.sender}</span>
               <time
-                dateTime="2022-02-24T00:00:00.000Z"
+                dateTime={m.createdAt}
                 className="font-mono text-sm font-extralight text-yellow-50/70"
               >
                 {' - '}

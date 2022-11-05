@@ -20,7 +20,6 @@ export default defineConfig(() => ({
   optimizeDeps: {
     disabled: false,
     force: true,
-    include: ['node_modules'],
     esbuildOptions: {
       target,
     },
@@ -52,9 +51,9 @@ export default defineConfig(() => ({
     modulePreload: false,
     commonjsOptions: {
       transformMixedEsModules: true,
+      include: ['node_modules'],
     },
     manifest: true,
-    sourcemap: true,
     outDir: '../dist',
     emptyOutDir: true,
     assetsDir: './',
