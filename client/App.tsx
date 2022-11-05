@@ -1,6 +1,8 @@
 import type MessageModel from '@server/db/model/Message';
 import { useEffect, useState } from 'preact/hooks';
 import ChatInput from './component/ChatInput';
+import Colors from './component/Colors';
+import useColors from './helpers/colors';
 import { isImage } from './helpers/isImage';
 
 const loadMessage = async () =>
@@ -13,6 +15,8 @@ export const App = () => {
 
   useEffect(() => {
     loadMessage().then(setMs).catch(console.warn);
+
+    useColors();
   }, []);
 
   return (
@@ -26,9 +30,14 @@ export const App = () => {
               <span className="font-bold">{m.sender}</span> -{' '}
               <time
                 dateTime="2022-02-24T00:00:00.000Z"
-                class="font-mono text-sm leading-7 text-slate-400"
+                class="font-mono text-sm leading-7 text-black-"
               >
-                {new Date(m.createdAt).toLocaleString()}
+                {new Date(m.createdAt).toLocaleString('pt-BR', {
+                  day: '2-digit',
+                  month: '2-digit',
+                  hour: '2-digit',
+                  minute: '2-digit',
+                })}
               </time>
             </h2>
 
@@ -44,6 +53,8 @@ export const App = () => {
       </ul>
 
       <ChatInput />
+
+      <Colors />
     </>
   );
 };

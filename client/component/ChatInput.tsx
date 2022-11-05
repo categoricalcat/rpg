@@ -24,7 +24,7 @@ export default () => {
         rows={3}
         name="chat-message"
         id="chat-message"
-        className="bg-neutral-800 rounded-lg border border-neutral-700 focus-within:border-indigo-500 focus-within:ring-1 focus-within:ring-indigo-500 block w-full resize-none py-4 px-3 focus:ring-0 sm:text-sm"
+        className="bg-black-3 rounded-lg border border-color block w-full resize-none py-4 px-3 sm:text-sm"
         placeholder="Message @juan"
       />
 
@@ -36,7 +36,7 @@ export default () => {
               className="-m-2.5 flex h-10 w-10 items-center justify-center rounded-full text-gray-400 hover:text-gray-500"
             >
               <PaperClipIcon
-                className="h-5 w-5"
+                className="h-5 w-5 fill-color"
                 aria-hidden="true"
               />
               <span className="sr-only">Attach a file</span>
@@ -53,9 +53,9 @@ export default () => {
         <div className="flex-shrink-0">
           <button
             type="submit"
-            className="inline-flex items-center rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+            className="bg-colorp inline-flex items-center rounded-md px-4 py-2"
           >
-            Post
+            Send
           </button>
         </div>
       </div>
