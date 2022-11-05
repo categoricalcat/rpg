@@ -1,13 +1,17 @@
 import path from 'path';
 import { defineConfig } from 'vite';
-import preact from '@preact/preset-vite';
+import react from '@vitejs/plugin-react';
 
 import slugify from 'slugify';
 
 const target = ['chrome100'];
 
 export default defineConfig(() => ({
-  plugins: [preact()],
+  plugins: [
+    react({
+      fastRefresh: true,
+    }),
+  ],
   root: 'client',
   logLevel: 'info',
   esbuild: {
@@ -16,6 +20,7 @@ export default defineConfig(() => ({
   optimizeDeps: {
     disabled: false,
     force: true,
+    include: ['node_modules'],
     esbuildOptions: {
       target,
     },
@@ -28,15 +33,12 @@ export default defineConfig(() => ({
   resolve: {
     alias: [
       { find: '@', replacement: path.resolve(__dirname, './') },
-      { find: 'react', replacement: 'preact/compat' },
       {
-        find: 'react-dom/test-utils',
-        replacement: 'preact/test-utils',
-      },
-      { find: 'react-dom', replacement: 'preact/compat' },
-      {
-        find: 'react/jsx-runtime',
-        replacement: 'preact/jsx-runtime',
+        find: 'assert',
+        replacement: path.resolve(
+          __dirname,
+          'node_modules/assert',
+        ),
       },
     ],
   },
@@ -48,6 +50,9 @@ export default defineConfig(() => ({
   build: {
     target,
     modulePreload: false,
+    commonjsOptions: {
+      transformMixedEsModules: true,
+    },
     manifest: true,
     sourcemap: true,
     outDir: '../dist',

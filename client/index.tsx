@@ -1,10 +1,19 @@
 import './index.scss';
 
 import assert from 'assert';
-import { render } from 'react';
+import { StrictMode, Suspense } from 'react';
+import { createRoot } from 'react-dom/client';
 import { App } from './App';
 
 export const $main = document.querySelector('main');
 assert($main, 'main element not found');
 
-render(<App />, $main);
+const root = createRoot($main);
+
+root.render(
+  <StrictMode>
+    <Suspense fallback={<div>Loading...</div>}>
+      <App />
+    </Suspense>
+  </StrictMode>,
+);

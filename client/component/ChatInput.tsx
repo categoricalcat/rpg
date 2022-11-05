@@ -1,10 +1,10 @@
 import Message from '../Message';
 import { PaperClipIcon } from '@heroicons/react/20/solid';
 
-import { TargetedEvent } from 'react';
+import { FormEvent } from 'react';
 
 export default () => {
-  const submit = (e: TargetedEvent<HTMLFormElement>) => {
+  const submit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const data = new FormData(e.target as HTMLFormElement);
     const value = data.get('chat-message') as string;

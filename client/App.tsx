@@ -1,12 +1,12 @@
 import type MessageModel from '@server/db/model/Message';
-import { useEffect, useState } from 'preact/hooks';
+import { useEffect, useState } from 'react';
 import ChatInput from './component/ChatInput';
 import { isImage } from './helpers/isImage';
 
 const loadMessage = async () =>
-  await fetch('http://localhost:9876/messages')
-    .then(async (r) => (await r.json()) as MessageModel[])
-    .then((ms) => ms.reverse().slice(0, 5));
+  await fetch('http://localhost:9876/messages').then(
+    async (r) => (await r.json()) as MessageModel[],
+  );
 
 export const App = () => {
   const [ms, setMs] = useState<MessageModel[]>([]);
@@ -19,14 +19,14 @@ export const App = () => {
     <>
       <h1 className="font-bold text-4xl mt-6">RPG</h1>
 
-      <ul className="mt-6">
+      <ul className="mt-6 max-h-96 overflow-y-scroll">
         {ms.map((m) => (
-          <li class="mb-2 flex flex-col items-start p-4 pb-5">
-            <h2 class="text-lg">
+          <li className="mb-2 flex flex-col items-start p-4 pb-5">
+            <h2 className="text-lg">
               <span className="font-bold">{m.sender}</span>
               <time
                 dateTime="2022-02-24T00:00:00.000Z"
-                class="font-mono text-sm font-extralight text-yellow-50/60"
+                className="font-mono text-sm font-extralight text-yellow-50/70"
               >
                 {' - '}
                 {new Date(m.createdAt).toLocaleString('pt-BR', {
@@ -38,7 +38,7 @@ export const App = () => {
               </time>
             </h2>
 
-            <div class="mt-1">
+            <div className="mt-1">
               {isImage(m.text) ? (
                 <img width={128} src={m.text} />
               ) : (
