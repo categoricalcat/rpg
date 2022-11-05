@@ -1,8 +1,6 @@
 import type MessageModel from '@server/db/model/Message';
 import { useEffect, useState } from 'preact/hooks';
 import ChatInput from './component/ChatInput';
-import Colors from './component/Colors';
-import useColors from './helpers/colors';
 import { isImage } from './helpers/isImage';
 
 const loadMessage = async () =>
@@ -15,8 +13,6 @@ export const App = () => {
 
   useEffect(() => {
     loadMessage().then(setMs).catch(console.warn);
-
-    useColors();
   }, []);
 
   return (
@@ -25,13 +21,14 @@ export const App = () => {
 
       <ul className="mt-6">
         {ms.map((m) => (
-          <li class="mb-2 flex flex-col items-start even:bg-neutral-800 p-4 pb-5">
+          <li class="mb-2 flex flex-col items-start p-4 pb-5">
             <h2 class="text-lg">
-              <span className="font-bold">{m.sender}</span> -{' '}
+              <span className="font-bold">{m.sender}</span>
               <time
                 dateTime="2022-02-24T00:00:00.000Z"
-                class="font-mono text-sm leading-7 text-black-"
+                class="font-mono text-sm font-extralight text-yellow-50/60"
               >
+                {' - '}
                 {new Date(m.createdAt).toLocaleString('pt-BR', {
                   day: '2-digit',
                   month: '2-digit',
@@ -41,20 +38,18 @@ export const App = () => {
               </time>
             </h2>
 
-            <p class="mt-1 text-base leading-7 text-slate-700">
+            <div class="mt-1">
               {isImage(m.text) ? (
                 <img width={128} src={m.text} />
               ) : (
                 <p>{m.text}</p>
               )}
-            </p>
+            </div>
           </li>
         ))}
       </ul>
 
       <ChatInput />
-
-      <Colors />
     </>
   );
 };

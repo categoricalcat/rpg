@@ -24,7 +24,7 @@ export default () => {
         rows={3}
         name="chat-message"
         id="chat-message"
-        className="bg-black-3 rounded-lg border border-color block w-full resize-none py-4 px-3 sm:text-sm"
+        className="bg-neutral-800 rounded-lg border border-red-900/25 block w-full resize-none py-4 px-3 sm:text-sm"
         placeholder="Message @juan"
       />
 
@@ -33,13 +33,12 @@ export default () => {
           <div className="flex items-center">
             <label
               htmlFor="file-upload"
-              className="-m-2.5 flex h-10 w-10 items-center justify-center rounded-full text-gray-400 hover:text-gray-500"
+              className="-m-2.5 flex h-10 w-10 items-center justify-center rounded-full cursor-pointer"
             >
               <PaperClipIcon
-                className="h-5 w-5 fill-color"
+                className="h-5 w-5 fill-red-600"
                 aria-hidden="true"
               />
-              <span className="sr-only">Attach a file</span>
 
               <input
                 type="file"
@@ -50,10 +49,11 @@ export default () => {
             </label>
           </div>
         </div>
+
         <div className="flex-shrink-0">
           <button
             type="submit"
-            className="bg-colorp inline-flex items-center rounded-md px-4 py-2"
+            className="bg-red-600 inline-flex items-center rounded-md px-4 py-2"
           >
             Send
           </button>
