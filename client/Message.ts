@@ -1,6 +1,6 @@
 import socket from './socket';
 
-const handlerJSON = async <R = Record<string, string>>(
+export const handlerJSON = async <R = Record<string, string>>(
   r: Response,
 ): Promise<R> =>
   await r
@@ -12,7 +12,7 @@ export default class Message {
   constructor(public text = '', public file?: File) {}
 
   processFile() {
-    if (!this.file) return;
+    if (!this.file?.name) return;
 
     const body = new FormData();
     body.append('upload', this.file);
@@ -21,11 +21,9 @@ export default class Message {
       method: 'POST',
       body,
     })
-      .then(handlerJSON)
+      .then(async (t) => await t.text())
       .then((r) => {
-        this.text += `\n http://localhost:9876/${
-          r['path'] ?? ''
-        }`;
+        this.text += `\n http://localhost:9876/uploads/${r}`;
       })
       .catch(console.warn);
   }

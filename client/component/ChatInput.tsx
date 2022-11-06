@@ -13,9 +13,8 @@ const submit =
   (e: FormEvent) => {
     e.preventDefault();
 
-    const msg = new Message(message);
+    const msg = new Message(message, file);
 
-    msg.file = file;
     msg.send().catch(console.warn);
   };
 
@@ -48,11 +47,10 @@ export default () => {
       <textarea
         onKeyDown={(e) => {
           if (e.key !== 'Enter' || e.shiftKey) return;
+          submit(getData())(e);
 
           const target = e.target as HTMLTextAreaElement;
           target.value = '';
-
-          submit(getData())(e);
         }}
         name="chat-message"
         id="chat-message"

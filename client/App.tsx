@@ -10,16 +10,22 @@ const loadMessage = async () =>
 
 export const App = () => {
   const [ms, setMs] = useState<MessageModel[]>([]);
+  const [ul, setUl] = useState<HTMLElement | null>();
 
   useEffect(() => {
     loadMessage().then(setMs).catch(console.warn);
   }, []);
 
+  ul?.scrollTo(0, ul?.scrollHeight);
+
   return (
     <>
       <h1 className="font-bold text-4xl mt-6">RPG</h1>
 
-      <ul className="mt-6 max-h-96 overflow-y-scroll">
+      <ul
+        className="mt-6 max-h-96 overflow-y-scroll"
+        ref={setUl}
+      >
         {ms.map((m) => (
           <li
             key={m.createdAt}
@@ -27,6 +33,7 @@ export const App = () => {
           >
             <h2 className="text-lg">
               <span className="font-bold">{m.sender}</span>
+
               <time
                 dateTime={m.createdAt}
                 className="font-mono text-sm font-extralight text-yellow-50/70"
