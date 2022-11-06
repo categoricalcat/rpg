@@ -1,7 +1,8 @@
 import type MessageModel from '@server/db/model/Message';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import ChatInput from './component/ChatInput';
 import { isImage } from './helpers/isImage';
+import { useStore } from './store';
 
 const loadMessage = async () =>
   await fetch('http://localhost:9876/messages').then(
@@ -9,24 +10,20 @@ const loadMessage = async () =>
   );
 
 export const App = () => {
-  const [ms, setMs] = useState<MessageModel[]>([]);
-  const [ul, setUl] = useState<HTMLElement | null>();
+  const { messages, set } = useStore();
 
   useEffect(() => {
-    loadMessage().then(setMs).catch(console.warn);
+    loadMessage()
+      .then((ms) => set({ messages: ms }))
+      .catch(console.warn);
   }, []);
-
-  ul?.scrollTo(0, ul?.scrollHeight);
 
   return (
     <>
       <h1 className="font-bold text-4xl mt-6">RPG</h1>
 
-      <ul
-        className="mt-6 max-h-96 overflow-y-scroll"
-        ref={setUl}
-      >
-        {ms.map((m) => (
+      <ul className="mt-6 max-h-96 overflow-y-scroll flex flex-col-reverse">
+        {[...messages].reverse().map((m) => (
           <li
             key={m.createdAt}
             className="mb-2 flex flex-col items-start p-4 pb-5"

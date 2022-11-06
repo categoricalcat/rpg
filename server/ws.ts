@@ -14,9 +14,11 @@ export const broadcast = (c: WebSocket) => (data: Buffer) => {
     : text;
 
   Message.create(newText, 'me', 'you')
-    .then(() =>
-      c.send(newText, { binary: true, compress: true }),
-    )
+    .then((message) => {
+      const json = JSON.stringify(message);
+
+      c.send(json, { binary: true, compress: true });
+    })
     .catch((e) => {
       c.send('Error', { binary: true, compress: true });
       console.error(e);

@@ -1,5 +1,6 @@
 import { decompress } from 'lzutf8';
 import secretReset from './helpers/secretReset';
+import { useStore } from './store';
 
 secretReset(() => {
   localStorage.removeItem('token');
@@ -30,14 +31,9 @@ ws.addEventListener(
   'message',
   // eslint-disable-next-line @typescript-eslint/no-misused-promises
   async ({ data }: MessageEvent<Blob>) => {
-    const text = await data.text();
+    const json = await data.text().then(JSON.parse);
 
-    document.body.prepend(
-      new Date().toLocaleString(),
-      ' | ',
-      text,
-      document.createElement('br'),
-    );
+    useStore.getState().addMessage(json);
   },
 );
 

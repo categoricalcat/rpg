@@ -35,9 +35,7 @@ app.get('/messages', (_, res) => {
 });
 
 app.post('/upload', upload.single('upload'), (req, res) => {
-  const status = req.file ? 200 : 400;
-
-  console.log(req.file);
+  const status = req.file ? 200 : 404;
 
   res.status(status).end(req.file?.filename);
 });

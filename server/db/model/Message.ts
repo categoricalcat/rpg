@@ -12,10 +12,15 @@ class Message {
     this.receiver = receiver.trim();
   }
 
-  static create(text: string, sender: string, receiver: string) {
-    return knex('messages').insert(
-      new Message(text, sender, receiver),
-    );
+  static async create(
+    text: string,
+    sender: string,
+    receiver: string,
+  ) {
+    return await knex('messages')
+      .insert(new Message(text, sender, receiver))
+      .returning('*')
+      .then((ms) => ms[0]);
   }
 }
 
