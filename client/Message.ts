@@ -1,5 +1,13 @@
 import socket from './socket';
 
+const handlerJSON = async <R = Record<string, string>>(
+  r: Response,
+): Promise<R> =>
+  await r
+    .clone()
+    .json()
+    .catch(async () => await r.text());
+
 export default class Message {
   constructor(public text = '', public file?: File) {}
 
@@ -13,9 +21,7 @@ export default class Message {
       method: 'POST',
       body,
     })
-      .then(
-        async (r) => (await r.json()) as Record<string, string>,
-      )
+      .then(handlerJSON)
       .then((r) => {
         this.text += `\n http://localhost:9876/${
           r['path'] ?? ''

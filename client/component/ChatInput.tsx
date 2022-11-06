@@ -1,7 +1,7 @@
 import Message from '../Message';
 import { PaperClipIcon } from '@heroicons/react/20/solid';
 
-import { FormEvent, useRef, useState } from 'react';
+import { FormEvent, useState } from 'react';
 
 interface DataForm {
   file: File;
@@ -12,42 +12,33 @@ const submit =
   ({ 'chat-message': message, file }: Partial<DataForm>) =>
   (e: FormEvent) => {
     e.preventDefault();
-    const target = e.target as HTMLInputElement;
 
     const msg = new Message(message);
 
-    if (file) {
-      msg.file = file;
-    }
-
-    msg.send();
-    target.value = '';
+    msg.file = file;
+    msg.send().catch(console.warn);
   };
 
 export default () => {
-  const form = useRef<HTMLFormElement>(null);
-  const getData = (): Partial<DataForm> =>
-    Object.fromEntries(
-      new FormData(form.current ?? undefined) as any,
-    );
-
   const [preview, setPreview] = useState<string | null>(null);
+  const [form, setf] = useState<HTMLFormElement | null>();
+
+  const getData = (): Partial<DataForm> =>
+    Object.fromEntries(new FormData(form ?? undefined) as any);
 
   return (
     <form
-      ref={form}
+      ref={setf}
       onSubmit={submit(getData())}
       onInput={(e) => {
-        const newData = getData();
-
         const target = e.target as HTMLInputElement;
         if (target.name !== 'file') return;
 
+        const newData = getData();
         const file = newData.file as File;
-
         const reader = new FileReader();
-        reader.readAsDataURL(file);
 
+        reader.readAsDataURL(file);
         reader.addEventListener('loadend', () => {
           setPreview(reader.result as string);
         });
@@ -56,43 +47,38 @@ export default () => {
     >
       <textarea
         onKeyDown={(e) => {
-          if (e.key === 'Enter' && !e.shiftKey) {
-            submit(getData())(e);
-          }
+          if (e.key !== 'Enter' || e.shiftKey) return;
+
+          const target = e.target as HTMLTextAreaElement;
+          target.value = '';
+
+          submit(getData())(e);
         }}
         name="chat-message"
         id="chat-message"
         className="bg-neutral-800 rounded-lg border border-red-900/25 block w-full resize-none py-4 pl-10 sm:text-sm"
         placeholder="Message @juan"
+        rows={1}
       />
 
-      <div className="absolute inset-x-0 top-0 flex justify-between py-2 pl-3 pr-2">
-        <div className="flex items-center justify-center">
-          <label
-            htmlFor="file-upload"
-            className="-m-2.5 flex h-10 w-10 items-center justify-center rounded-full cursor-pointer"
-          >
-            <PaperClipIcon
-              className="h-5 w-5 fill-red-600"
-              aria-hidden="true"
-            />
+      <label
+        htmlFor="file-upload"
+        className="absolute top-4 mt-0.5 left-3 cursor-pointer"
+      >
+        <PaperClipIcon
+          className="h-5 w-5 fill-red-600"
+          aria-hidden="true"
+        />
 
-            <input
-              type="file"
-              name="file"
-              hidden
-              id="file-upload"
-            />
-          </label>
-        </div>
+        <input type="file" name="file" hidden id="file-upload" />
+      </label>
 
-        <button
-          type="submit"
-          className="bg-red-600 inline-flex items-center rounded-md px-4 py-2"
-        >
-          Send
-        </button>
-      </div>
+      <button
+        type="submit"
+        className="bg-red-600 inline-flex items-center rounded-md px-4 py-2 absolute top-2.5 right-2"
+      >
+        Send
+      </button>
 
       {preview && <img src={preview} />}
     </form>

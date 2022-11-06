@@ -8,6 +8,9 @@ import multer from 'multer';
 
 const upload = multer({ dest: 'uploads/' });
 
+// request delay
+app.use((_, __, next) => setTimeout(next, 666));
+
 app.get('/messages', (_, res) => {
   Message.getAll()
     .then((ms) => res.end(JSON.stringify(ms)))
