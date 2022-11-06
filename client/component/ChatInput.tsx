@@ -14,18 +14,14 @@ const submit =
     e.preventDefault();
     const target = e.target as HTMLInputElement;
 
-    if (!message) return;
-
     const msg = new Message(message);
+
+    if (file) {
+      msg.file = file;
+    }
+
     msg.send();
     target.value = '';
-
-    if (!file) return;
-
-    fetch('http://localhost:9876/upload', {
-      method: 'POST',
-      body: file,
-    }).catch(console.warn);
   };
 
 export default () => {

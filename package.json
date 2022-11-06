@@ -12,7 +12,7 @@
   },
   "license": "ISC",
   "author": "Wallace Fares, Juan Dornelles, Jaime Barbosa",
-  "main": "dist/server/index.js",
+  "main": "server/index.ts",
   "scripts": {
     "build": "vite build --base ./ --force -d",
     "dev": "nodemon --ext .js,.ts,.html --watch . --exec 'pnpm start'",
@@ -22,7 +22,7 @@
     "sort": "npx sort-package-json",
     "start": "concurrently -n client,server 'pnpm:start:client' 'pnpm:start:server'",
     "start:client": "vite --force",
-    "start:server": "ts-node -r tsconfig-paths/register server/index.ts"
+    "start:server": "ts-node -r tsconfig-paths/register -P . server/index.ts"
   },
   "dependencies": {
     "@headlessui/react": "^1.7.4",
@@ -80,6 +80,7 @@
     "ts-node": "^10.9.1",
     "ts-node-dev": "^2.0.0",
     "tsconfig-paths": "^4.1.0",
+    "tslib": "^2.4.1",
     "typescript": "^4.8.4",
     "vite": "^3.2.2",
     "ws": "^8.10.0"

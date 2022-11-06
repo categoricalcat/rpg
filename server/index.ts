@@ -14,10 +14,10 @@ app.get('/messages', (_, res) => {
     .catch(console.warn);
 });
 
-app.post('/upload', upload.single('file'), (req, res) => {
-  console.log(req.file);
+app.post('/upload', upload.single('upload'), (req, res) => {
+  const status = req.file ? 200 : 400;
 
-  res.send('ok');
+  res.status(status).end(req.file);
 });
 
 process.on('uncaughtException', (e) => {

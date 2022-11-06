@@ -13,9 +13,14 @@ export const broadcast = (c: WebSocket) => (data: Buffer) => {
     ? new Command(text).run() ?? 'Invalid Command'
     : text;
 
-  Message.create(newText, 'me', 'you').catch(console.warn);
-
-  c.send(newText, { binary: true, compress: true });
+  Message.create(newText, 'me', 'you')
+    .then(() =>
+      c.send(newText, { binary: true, compress: true }),
+    )
+    .catch((e) => {
+      c.send('Error', { binary: true, compress: true });
+      console.error(e);
+    });
 };
 
 export const onConnection = (socket: WebSocket) => {
