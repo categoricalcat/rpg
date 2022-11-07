@@ -31,7 +31,14 @@ ws.addEventListener(
   'message',
   // eslint-disable-next-line @typescript-eslint/no-misused-promises
   async ({ data }: MessageEvent<Blob>) => {
-    const json = await data.text().then(JSON.parse);
+    const json = await data
+      .text()
+      .then(JSON.parse)
+      .catch(async (e) => {
+        console.error(e);
+
+        throw e;
+      });
 
     useStore.getState().addMessage(json);
   },

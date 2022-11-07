@@ -11,15 +11,18 @@ datasource db {
 }
 
 model User {
-  name    String    @id @map("_id")
-  Message Message[]
+  name     String    @id @map("_id")
+  Sent     Message[] @relation("Sent")
+  Received Message[] @relation("Received")
 }
 
 model Message {
   id        String   @id @default(auto()) @map("_id") @db.ObjectId
   text      String
-  user      User     @relation(fields: [uName], references: [name])
-  uName     String
+  sender    User     @relation("Sent", fields: [sName], references: [name])
+  sName     String
+  receiver  User     @relation("Received", fields: [rName], references: [name])
+  rName     String
   createdAt DateTime @default(now())
 }
 
@@ -39,16 +42,27 @@ enum Types {
 }
 
 type Item {
-  name        String
+  photo       String
+  name        String // Sword
   description String
-  exertion    String
-  modifier    Attribute?
-  toggle      Boolean?
+  exertion    String // 2.6 + 5 + STR
+  modifier    Attribute? // { STR: 1, DEX: -1 }
+  active      Boolean? //
   type        Types
 }
 
-model Sheet {
+model Race {
   name        String    @id @map("_id")
+  description String
+  attributes  Attribute
+  Sheet       Sheet[]
+}
+
+model Sheet {
+  photo       String
+  name        String    @id @map("_id")
+  race        Race      @relation(fields: [rName], references: [name])
+  rName       String
   description String
   attribute   Attribute
   items       Item[]

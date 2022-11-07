@@ -1,6 +1,7 @@
 import type MessageModel from '@server/db/model/Message';
 import { useEffect } from 'react';
 import ChatInput from './component/ChatInput';
+import Modal from './component/Modal';
 import { isImage } from './helpers/isImage';
 import { useStore } from './store';
 
@@ -17,6 +18,10 @@ export const App = () => {
       .then((ms) => set({ messages: ms }))
       .catch(console.warn);
   }, []);
+
+  if (Number) {
+    return <Modal show={false}>AAAAAAAAOOOOOOO</Modal>;
+  }
 
   return (
     <>
@@ -46,8 +51,6 @@ export const App = () => {
             </h2>
 
             <div className="mt-1">
-              {console.log(m.text.split(/\s/giu).map((t) => {x}))}
-
               {isImage(m.text) ? (
                 <img width={128} src={m.text} />
               ) : (

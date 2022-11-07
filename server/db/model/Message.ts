@@ -1,4 +1,4 @@
-import knex from '@server/knex';
+import prisma from '..';
 
 class Message {
   text: string;
@@ -17,10 +17,21 @@ class Message {
     sender: string,
     receiver: string,
   ) {
-    return await knex('messages')
-      .insert(new Message(text, sender, receiver))
-      .returning('*')
-      .then((ms) => ms[0]);
+    return await prisma.message.create({
+      data: {
+        text,
+        sender: {
+          connect: {
+            name: sender,
+          },
+        },
+        receiver: {
+          connect: {
+            name: receiver,
+          },
+        },
+      },
+    });
   }
 }
 

@@ -1,8 +1,8 @@
-import knex from '@server/knex';
+import prisma from '..';
 
 class Message {
   getAll() {
-    return knex('messages').select('*');
+    return prisma.message.findMany({});
   }
 }
 
