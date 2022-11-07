@@ -11,15 +11,45 @@ datasource db {
 }
 
 model User {
-  id    String @id @default(auto()) @map("_id") @db.ObjectId
-  name  String  @unique
-  messages Message[]
+  name    String    @id @map("_id")
+  Message Message[]
 }
 
 model Message {
-  id        String @id @default(auto()) @map("_id") @db.ObjectId
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
   text      String
-  user      User     @relation(fields: [userId], references: [id])
-  userId    String
+  user      User     @relation(fields: [uName], references: [name])
+  uName     String
   createdAt DateTime @default(now())
+}
+
+type Attribute {
+  STR Int
+  DEX Int
+  CON Int
+  INT Int
+  WIS Int
+  CHA Int
+  PWR Int
+}
+
+enum Types {
+  ITEM
+  SPELL
+}
+
+type Item {
+  name        String
+  description String
+  exertion    String
+  modifier    Attribute?
+  toggle      Boolean?
+  type        Types
+}
+
+model Sheet {
+  name        String    @id @map("_id")
+  description String
+  attribute   Attribute
+  items       Item[]
 }

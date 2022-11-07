@@ -22,6 +22,7 @@
     "sort": "npx sort-package-json",
     "start": "concurrently -n client,server 'pnpm:start:client' 'pnpm:start:server'",
     "start:client": "vite --force",
+    "gen:prisma": "prisma format && prisma generate",
     "start:server": "ts-node -r tsconfig-paths/register -P . server/index.ts"
   },
   "dependencies": {
