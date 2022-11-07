@@ -1,2 +1,6 @@
+import mime from 'mime';
+
 export const isImage = (url: string) =>
-  url.match(/\.(jpeg|jpg|gif|png|svg|webp)$/) != null;
+  url
+    .split(' ')
+    .some((u) => mime.getType(u)?.startsWith('image/'));

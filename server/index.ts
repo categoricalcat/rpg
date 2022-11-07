@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/restrict-plus-operands */
 
-import '@server/db/setup';
+import '@server/db';
 
 import { app } from './config';
 

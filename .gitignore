@@ -1,4 +1,4 @@
-db.sqlite
+rpg.db*
 uploads
 
 .cert/*.pem

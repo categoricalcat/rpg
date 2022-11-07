@@ -22,7 +22,7 @@ export const App = () => {
     <>
       <h1 className="font-bold text-4xl mt-6">RPG</h1>
 
-      <ul className="mt-6 max-h-96 overflow-y-scroll flex flex-col-reverse">
+      <ul className="mt-6 overflow-y-scroll flex flex-col-reverse">
         {[...messages].reverse().map((m) => (
           <li
             key={m.createdAt}
@@ -46,6 +46,8 @@ export const App = () => {
             </h2>
 
             <div className="mt-1">
+              {console.log(m.text.split(/\s/giu).map((t) => {x}))}
+
               {isImage(m.text) ? (
                 <img width={128} src={m.text} />
               ) : (
