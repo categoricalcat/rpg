@@ -1,33 +1,73 @@
-import { defineConfig } from "vite";
+import path from 'path';
+import { defineConfig } from 'vite';
+import react from '@vitejs/plugin-react';
 
-export default defineConfig({
-  root: "client",
-  logLevel: "info",
-  define: {
-    "process.env": {
-      NODE_ENV: JSON.stringify(process.env["NODE_ENV"]),
+import slugify from 'slugify';
+
+const target = ['chrome100'];
+
+export default defineConfig(() => ({
+  plugins: [
+    react({
+      fastRefresh: true,
+    }),
+  ],
+  root: 'client',
+  logLevel: 'info',
+  esbuild: {
+    target,
+  },
+  optimizeDeps: {
+    disabled: false,
+    force: true,
+    esbuildOptions: {
+      target,
     },
+  },
+  define: {
+    'process.env': {
+      NODE_ENV: JSON.stringify(process.env['NODE_ENV']),
+    },
+  },
+  resolve: {
+    alias: [
+      { find: '@', replacement: path.resolve(__dirname, './') },
+      {
+        find: 'assert',
+        replacement: path.resolve(
+          __dirname,
+          'node_modules/assert',
+        ),
+      },
+    ],
   },
   server: {
     port: 6789,
-    host: "0.0.0.0",
+    host: '0.0.0.0',
     strictPort: true,
   },
   build: {
-    polyfillModulePreload: false,
-    target: "esnext",
+    target,
+    modulePreload: false,
+    commonjsOptions: {
+      transformMixedEsModules: true,
+      include: ['node_modules'],
+    },
     manifest: true,
-    sourcemap: true,
-    cssTarget: "esnext",
-    outDir: "../docs",
+    outDir: '../dist',
     emptyOutDir: true,
-    assetsDir: "./",
+    assetsDir: './',
     rollupOptions: {
       output: {
         manualChunks(id) {
-          if (id.includes("node_modules")) return id;
+          if (!id.includes('node_modules')) return;
+
+          return slugify(
+            id.split('/').pop()?.split('.').shift() ??
+              'vendor.js',
+          ).toLowerCase();
         },
       },
     },
   },
-});
+}));

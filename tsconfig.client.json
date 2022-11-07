@@ -1,7 +1,9 @@
 {
   "extends": "./tsconfig",
   "compilerOptions": {
-    "module": "None"
+    "module": "ESNext",
   },
-  "include": ["client/**/*"]
+  "include": [
+    "client/**/*"
+  ]
 }
