@@ -1,9 +1,16 @@
 {
+  "include": [
+    "src/**/*",
+    "./*.config.js"
+  ],
   "extends": "@tsconfig/strictest/tsconfig.json",
   "compilerOptions": {
     "strict": true,
     "target": "ESNext",
     "module": "ESNext",
+    "moduleResolution": "Node",
+    "outDir": "dist",
+    "jsx": "react-jsx",
     "paths": {
       "@*": [
         "./src/*",

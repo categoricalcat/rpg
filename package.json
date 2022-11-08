@@ -21,6 +21,6 @@
     "docker": "bash ./scripts/start.bash",
     "generate": "pnpm --stream -r generate",
     "preinstall": "ncu && pnpm sort",
-    "sort": "npx sort-package-json"
+    "sort": "pnpm -r exec npx sort-package-json"
   }
 }
