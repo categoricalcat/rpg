@@ -17,7 +17,7 @@
     "server"
   ],
   "scripts": {
-    "dev": "nodemon --ext .js,.ts,.html --watch . --exec 'pnpm --stream -r dev'",
+    "dev": "pnpm --stream -r dev",
     "docker": "bash ./scripts/start.bash",
     "generate": "pnpm --stream -r generate",
     "preinstall": "ncu && pnpm sort",

@@ -1,11 +1,18 @@
 import { EyeDropperIcon } from '@heroicons/react/20/solid';
 import { PlusCircleIcon } from '@heroicons/react/24/outline';
+import { useState } from 'react';
 import { Button } from './Button';
 import Input from './Input';
 import TextArea from './TextArea';
 
 const Stat = (props: { stat: string; value: number }) => (
   <div className="flex w-1/3 flex-col py-2 text-center">
+    <input
+      type="hidden"
+      name={`char-${props.stat}`}
+      value={props.value}
+    />
+
     <dt className="order-2  font-bold text-yellow-50/90">
       {props.stat}
     </dt>
@@ -38,7 +45,7 @@ const Item = () => (
     className="mb-3 w-full cursor-pointer rounded-sm bg-neutral-700 p-4 shadow-lg hover:bg-neutral-600"
   >
     <div className="flex items-center justify-between">
-      <p className="truncate text-sm font-semibold text-red-600">
+      <p className="truncate text-sm font-bold text-red-600">
         {position.title}
       </p>
 
@@ -86,67 +93,74 @@ const Items = () => {
 };
 
 export default function Example() {
+  const [image, setImage] = useState(
+    'https://i.pinimg.com/474x/b3/30/e8/b330e844ef0a94faf523df4101428c28.jpg',
+  );
+
   return (
-    <>
-      <form
-        action="#"
-        method="POST"
-        className="mx-6 max-w-6xl rounded bg-neutral-800 lg:mx-auto"
-      >
-        <div className="flex flex-wrap">
-          <h3 className="mt-4 mb-4 w-full text-center text-xl font-bold uppercase tracking-wide">
-            Character Sheet
-          </h3>
+    <form
+      action="#"
+      method="POST"
+      className="mx-6 max-w-6xl rounded bg-neutral-800 lg:mx-auto"
+      onSubmit={(e) => {
+        e.preventDefault();
 
-          <div className="flex w-1/2 flex-col gap-10 p-6">
+        const data = new FormData(e.currentTarget);
+
+        console.log(Object.fromEntries(data));
+      }}
+    >
+      <div className="flex flex-wrap">
+        <h3 className="mt-4 mb-4 w-full text-center text-xl font-bold uppercase tracking-wide">
+          Character Sheet
+        </h3>
+
+        <div className="flex w-1/2 flex-col gap-10 p-6">
+          <Input
+            label="Name"
+            name="char-name"
+            placeholder="João Limão"
+          />
+
+          <div className="-mt-2 flex items-center">
+            <span className="flex min-w-max items-center justify-center overflow-hidden rounded-full">
+              <img className="h-24 w-24" src={image} />
+            </span>
+
             <Input
-              label="Name"
-              name="char-name"
-              placeholder="João Limão"
+              onInput={(e) => setImage(e.currentTarget.value)}
+              label="Photo"
+              name="profile-photo"
+              placeholder="Photo URL"
+              className="ml-4 w-full"
             />
-
-            <div className="-mt-2 flex items-center">
-              <span className="flex min-w-max items-center justify-center overflow-hidden rounded-full">
-                <img
-                  className="h-24 w-24"
-                  src="https://i.pinimg.com/474x/b3/30/e8/b330e844ef0a94faf523df4101428c28.jpg"
-                />
-              </span>
-
-              <Input
-                label="Photo"
-                name="profile-photo"
-                placeholder="Photo URL"
-                className="ml-4 w-full"
-              />
-            </div>
-
-            <TextArea
-              label="description"
-              name="char-description"
-              placeholder="A description of your character"
-            />
-
-            <dl className="-mt-6 flex flex-wrap justify-center">
-              <Stat stat="STR" value={10} />
-              <Stat stat="DEX" value={4} />
-              <Stat stat="CON" value={3} />
-              <Stat stat="INT" value={6} />
-              <Stat stat="WIS" value={5} />
-              <Stat stat="CHA" value={1} />
-              <Stat stat="PWR" value={8} />
-            </dl>
           </div>
 
-          <div className="flex w-full flex-col justify-around sm:w-full md:w-1/2">
-            <Items />
-            <Items />
-          </div>
+          <TextArea
+            label="description"
+            name="char-description"
+            placeholder="A description of your character"
+          />
+
+          <dl className="-mt-6 flex flex-wrap justify-center">
+            <Stat stat="STR" value={10} />
+            <Stat stat="DEX" value={4} />
+            <Stat stat="CON" value={3} />
+            <Stat stat="INT" value={6} />
+            <Stat stat="WIS" value={5} />
+            <Stat stat="CHA" value={1} />
+            <Stat stat="PWR" value={8} />
+          </dl>
         </div>
-        <div className="bg-neutral-700 px-4 py-3 text-right sm:px-6">
-          <Button>Save</Button>
+
+        <div className="flex w-full flex-col justify-around sm:w-full md:w-1/2">
+          <Items />
+          <Items />
         </div>
-      </form>
-    </>
+      </div>
+      <div className="bg-neutral-700 px-4 py-3 text-right sm:px-6">
+        <Button>Save</Button>
+      </div>
+    </form>
   );
 }

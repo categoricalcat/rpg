@@ -71,6 +71,8 @@ importers:
       express: ^4.18.2
       localtunnel: ^2.0.2
       lzutf8: ^0.6.3
+      prettier: ^2.7.1
+      prettier-plugin-tailwindcss: ^0.1.13
       prisma: ^4.5.0
       slugify: ^1.6.5
       ts-node: ^10.9.1
@@ -88,6 +90,8 @@ importers:
       express: 4.18.2
       localtunnel: 2.0.2
       lzutf8: 0.6.3
+      prettier: 2.7.1
+      prettier-plugin-tailwindcss: 0.1.13_prettier@2.7.1
       prisma: 4.5.0
       slugify: 1.6.5
       ts-node: 10.9.1_cbe7ovvae6zqfnmtgctpgpys54

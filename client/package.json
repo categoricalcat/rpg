@@ -8,7 +8,7 @@
   "main": "index.js",
   "scripts": {
     "build": "vite build --base ./ --force -d",
-    "dev": "vite"
+    "dev": "nodemon --ext ts,tsx,js,jsx --watch . --exec 'vite'"
   },
   "dependencies": {
     "@headlessui/react": "^1.7.4",
