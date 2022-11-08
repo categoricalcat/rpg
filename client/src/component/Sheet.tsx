@@ -1,48 +1,44 @@
 import { Button } from './Button';
 import Input from './Input';
+import TextArea from './TextArea';
 
-/*
-  This example requires some changes to your config:
-
-  ```
-  // tailwind.config.js
-  module.exports = {
-    // ...
-    plugins: [
-      // ...
-      require('@tailwindcss/forms'),
-    ],
-  }
-  ```
-*/
 export default function Example() {
   return (
     <>
       <form
         action="#"
         method="POST"
-        className="my-8 rounded bg-neutral-800"
+        className="rounded bg-neutral-800"
       >
-        <div className="flex flex-col gap-6 p-6">
-          <h3 className="text-2xl font-bold">Character Sheet</h3>
+        <div className="flex flex-col gap-10 p-6">
+          <h3 className="-mb-7 text-center text-xl font-bold uppercase tracking-wide">
+            Character Sheet
+          </h3>
 
-          <div className="mb-4">
-            <label className="block text-sm font-medium ">
-              Photo
-            </label>
-            <div className="mt-1 flex items-center">
-              <span className="flex h-12 w-12 items-center justify-center rounded-full">
-                ?
-              </span>
+          <div className="mt-1 flex items-center">
+            <span className="flex min-w-max items-center justify-center overflow-hidden rounded-full">
+              <img
+                className="h-24 w-24"
+                src="https://i.pinimg.com/474x/b3/30/e8/b330e844ef0a94faf523df4101428c28.jpg"
+              />
+            </span>
 
-              <Input label="Photo" name="profile-photo" />
-            </div>
+            <Input
+              label="Photo"
+              name="profile-photo"
+              className="ml-4 w-full"
+            />
           </div>
 
           <Input
             label="Name"
             name="char-name"
             placeholder="João Limão"
+          />
+
+          <TextArea
+            label="description"
+            name="char-description"
           />
         </div>
 

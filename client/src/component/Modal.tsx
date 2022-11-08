@@ -19,7 +19,7 @@ const Modal = ({
         onClose={onClose}
       >
         <div className="fixed inset-0 z-10 overflow-y-auto">
-          <div className="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
+          <div className="flex min-h-full items-end justify-center text-center sm:items-center">
             <Transition.Child
               as={Fragment}
               enter="ease-out duration-300"
@@ -31,9 +31,8 @@ const Modal = ({
             >
               <Dialog.Panel
                 className="
-                  border border-gray-100 relative transform overflow-hidden
-                  rounded-lg bg-white px-4 pt-5 pb-4 text-left shadow-xl
-                  transition-all my-8 w-full max-w-sm p-6"
+                  relative my-8 w-full max-w-md transform overflow-hidden
+                  text-left transition-all"
               >
                 {children}
               </Dialog.Panel>

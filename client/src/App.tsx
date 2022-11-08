@@ -4,6 +4,7 @@ import ChatInput from './component/ChatInput';
 import Modal from './component/Modal';
 import { isImage } from './helpers/isImage';
 import { useStore } from './store';
+import Sheet from './component/Sheet';
 
 const loadMessage = async () =>
   await fetch('http://localhost:9876/messages').then(
@@ -20,14 +21,18 @@ export const App = () => {
   }, []);
 
   if (Number) {
-    return <Modal show={false}>AAAAAAAAOOOOOOO</Modal>;
+    return (
+      <Modal show={true}>
+        <Sheet />
+      </Modal>
+    );
   }
 
   return (
     <>
-      <h1 className="font-bold text-4xl mt-6">RPG</h1>
+      <h1 className="mt-6 text-4xl font-bold">RPG</h1>
 
-      <ul className="mt-6 overflow-y-scroll flex flex-col-reverse">
+      <ul className="mt-6 flex flex-col-reverse overflow-y-scroll">
         {[...messages].reverse().map((m) => (
           <li
             key={m.createdAt}
