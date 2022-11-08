@@ -1,0 +1,16 @@
+{
+  "extends": "@tsconfig/node18-strictest-esm/tsconfig.json",
+  "compilerOptions": {
+    "strict": true,
+    "target": "ESNext",
+    "paths": {
+      "@*": [
+        "./src/*",
+        "./node_modules/*",
+        "../*"
+      ]
+    },
+    "module": "CommonJS",
+    "outDir": "dist"
+  }
+}

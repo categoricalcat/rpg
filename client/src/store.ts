@@ -1,4 +1,4 @@
-import type Message from '@server/db/model/Message';
+import type Message from '@server/src/db/model/Message';
 import create from 'zustand';
 
 interface Store {

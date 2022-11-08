@@ -1,4 +1,4 @@
-import type MessageModel from '@server/db/model/Message';
+import type MessageModel from '@server/src/db/model/Message';
 import { useEffect } from 'react';
 import ChatInput from './component/ChatInput';
 import Modal from './component/Modal';

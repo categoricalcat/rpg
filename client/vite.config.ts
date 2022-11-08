@@ -12,7 +12,6 @@ export default defineConfig(() => ({
       fastRefresh: true,
     }),
   ],
-  root: 'client',
   logLevel: 'info',
   esbuild: {
     target,

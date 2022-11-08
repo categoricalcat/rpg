@@ -1,7 +1,5 @@
 /* eslint-disable @typescript-eslint/restrict-plus-operands */
 
-import '@server/db';
-
 import { app } from './config';
 
 import Message from './db/controller/Message';
