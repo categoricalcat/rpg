@@ -12,19 +12,15 @@
   },
   "license": "ISC",
   "author": "Wallace Fares, Juan Dornelles, Jaime Barbosa",
-  "scripts": {
-    "build": "vite build --base ./ --force -d",
-    "dev": "nodemon --ext .js,.ts,.html --watch . --exec 'pnpm start'",
-    "docker": "bash ./scripts/start.bash",
-    "gen:prisma": "prisma format && prisma generate",
-    "preinstall": "ncu && pnpm sort",
-    "sort": "npx sort-package-json",
-    "start": "concurrently -n client,server 'pnpm:start:client' 'pnpm:start:server'",
-    "start:client": "vite --force",
-    "start:server": "ts-node -r tsconfig-paths/register -P . server/src/index.ts"
-  },
   "workspaces": [
     "client",
     "server"
-  ]
+  ],
+  "scripts": {
+    "dev": "nodemon --ext .js,.ts,.html --watch . --exec 'pnpm --stream -r dev'",
+    "docker": "bash ./scripts/start.bash",
+    "generate": "pnpm --stream -r generate",
+    "preinstall": "ncu && pnpm sort",
+    "sort": "npx sort-package-json"
+  }
 }

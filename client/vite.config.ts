@@ -7,11 +7,8 @@ import slugify from 'slugify';
 const target = ['chrome100'];
 
 export default defineConfig(() => ({
-  plugins: [
-    react({
-      fastRefresh: true,
-    }),
-  ],
+  plugins: [react({})],
+  root: 'src',
   logLevel: 'info',
   esbuild: {
     target,
