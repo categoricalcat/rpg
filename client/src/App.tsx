@@ -20,13 +20,9 @@ export const App = () => {
       .catch(console.warn);
   }, []);
 
-  if (Number) {
-    return (
-      <Modal show={true}>
-        <Sheet />
-      </Modal>
-    );
-  }
+  // <Modal show={true}>
+  //   <Sheet />
+  // </Modal>
 
   return (
     <>

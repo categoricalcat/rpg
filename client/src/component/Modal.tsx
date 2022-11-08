@@ -31,7 +31,7 @@ const Modal = ({
             >
               <Dialog.Panel
                 className="
-                  relative my-8 w-full max-w-md transform overflow-hidden
+                  relative my-8 w-full transform overflow-hidden
                   text-left transition-all"
               >
                 {children}
