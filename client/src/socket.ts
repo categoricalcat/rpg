@@ -35,7 +35,7 @@ ws.addEventListener(
       .text()
       .then(JSON.parse)
       .catch(async (e) => {
-        console.error(e);
+        data.text().then(console.warn);
 
         throw e;
       });

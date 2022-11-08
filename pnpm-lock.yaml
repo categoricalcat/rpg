@@ -63,7 +63,9 @@ importers:
     specifiers:
       '@prisma/client': ^4.5.0
       '@tsconfig/node18-strictest-esm': ^1.0.1
+      '@types/cors': ^2.8.12
       '@types/node': ^18.11.9
+      '@types/ws': ^8.5.3
       cors: ^2.8.5
       dotenv: ^16.0.3
       express: ^4.18.2
@@ -78,7 +80,9 @@ importers:
     dependencies:
       '@prisma/client': 4.5.0_prisma@4.5.0
       '@tsconfig/node18-strictest-esm': 1.0.1
+      '@types/cors': 2.8.12
       '@types/node': 18.11.9
+      '@types/ws': 8.5.3
       cors: 2.8.5
       dotenv: 16.0.3
       express: 4.18.2
@@ -545,6 +549,10 @@ packages:
       '@types/color-convert': 2.0.0
     dev: false
 
+  /@types/cors/2.8.12:
+    resolution: {integrity: sha512-vt+kDhq/M2ayberEtJcIN/hxXy1Pk+59g2FV/ZQceeaTyCtCucjL2Q7FXlFjtWn4n15KCr1NE2lNNFhp0lEThw==}
+    dev: false
+
   /@types/mime/3.0.1:
     resolution: {integrity: sha512-Y4XFY5VJAuw0FgAqPNd6NNoV44jbq9Bz2L7Rh/J6jLTiHBSBJa9fxqQIvkIld4GsoDOcCbvzOUAbLPsSKKg+uA==}
     dev: false
@@ -573,6 +581,12 @@ packages:
 
   /@types/scheduler/0.16.2:
     resolution: {integrity: sha512-hppQEBDmlwhFAXKJX2KnWLYu5yMfi91yazPb2l+lbJiwW+wdo1gNeRA+3RgNSO39WYX2euey41KEwnqesU2Jew==}
+    dev: false
+
+  /@types/ws/8.5.3:
+    resolution: {integrity: sha512-6YOoWjruKj1uLf3INHH7D3qTXwFfEsg1kf3c0uDdSBJwfa/llkwIjrAGV7j7mVgGNbzTQ3HiHKKDXl6bJPD97w==}
+    dependencies:
+      '@types/node': 18.11.9
     dev: false
 
   /@vitejs/plugin-react/2.2.0_vite@3.2.3:

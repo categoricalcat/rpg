@@ -54,14 +54,14 @@ export default () => {
         }}
         name="chat-message"
         id="chat-message"
-        className="bg-neutral-800 rounded-lg border border-red-900/25 block w-full resize-none py-4 pl-10 sm:text-sm"
+        className="block w-full resize-none rounded-lg border border-red-900/25 bg-neutral-800 py-4 pl-10 sm:text-sm"
         placeholder="Message @juan"
         rows={1}
       />
 
       <label
         htmlFor="file-upload"
-        className="absolute top-4 mt-0.5 left-3 cursor-pointer"
+        className="absolute top-4 left-3 mt-0.5 cursor-pointer"
       >
         <PaperClipIcon
           className="h-5 w-5 fill-red-600"
@@ -73,7 +73,7 @@ export default () => {
 
       <button
         type="submit"
-        className="bg-red-600 inline-flex items-center rounded-md px-4 py-2 absolute top-2.5 right-2"
+        className="absolute top-2 right-2 inline-flex items-center rounded-md bg-red-600 px-4 py-2"
       >
         Send
       </button>

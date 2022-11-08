@@ -21,13 +21,23 @@ class Message {
       data: {
         text,
         sender: {
-          connect: {
-            name: sender,
+          connectOrCreate: {
+            create: {
+              name: sender,
+            },
+            where: {
+              name: sender,
+            },
           },
         },
         receiver: {
-          connect: {
-            name: receiver,
+          connectOrCreate: {
+            create: {
+              name: receiver,
+            },
+            where: {
+              name: receiver,
+            },
           },
         },
       },

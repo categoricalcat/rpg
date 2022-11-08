@@ -24,6 +24,8 @@ export const App = () => {
   //   <Sheet />
   // </Modal>
 
+  console.log(messages);
+
   return (
     <>
       <h1 className="mt-6 text-4xl font-bold">RPG</h1>
@@ -35,7 +37,7 @@ export const App = () => {
             className="mb-2 flex flex-col items-start p-4 pb-5"
           >
             <h2 className="text-lg">
-              <span className="font-bold">{m.sender}</span>
+              <span className="font-bold">{m.sName}</span>
 
               <time
                 dateTime={m.createdAt}
