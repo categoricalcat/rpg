@@ -2,6 +2,19 @@ import { Button } from './Button';
 import Input from './Input';
 import TextArea from './TextArea';
 
+const Stat = (props: { stat: string; value: number }) => (
+  <div className="flex  w-1/3 flex-col py-2 text-center">
+    <dt className="order-2  font-bold text-yellow-50/90">
+      {props.stat}
+    </dt>
+    <dd className="order-1 text-xl font-bold tracking-tight text-red-600">
+      <span className="mr-2 font-normal text-red-700">-</span>
+      {props.value}
+      <span className="ml-2 font-normal text-red-700">+</span>
+    </dd>
+  </div>
+);
+
 export default function Example() {
   return (
     <>
@@ -40,6 +53,16 @@ export default function Example() {
             label="description"
             name="char-description"
           />
+
+          <dl className="flex flex-wrap justify-center">
+            <Stat stat="STR" value={10} />
+            <Stat stat="DEX" value={4} />
+            <Stat stat="CON" value={3} />
+            <Stat stat="INT" value={6} />
+            <Stat stat="WIS" value={5} />
+            <Stat stat="CHA" value={1} />
+            <Stat stat="PWR" value={8} />
+          </dl>
         </div>
 
         <div className="bg-neutral-700 px-4 py-3 text-right sm:px-6">
