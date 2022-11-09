@@ -81,4 +81,6 @@ export const sheet = () =>
     },
   });
 
+// sheet().then(console.log).catch(console.error);
+
 export default prisma;

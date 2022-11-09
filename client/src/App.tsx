@@ -27,6 +27,8 @@ export const App = () => {
       </Modal>
     );
 
+  console.log(process.env['DATABASE_URL']);
+
   return (
     <>
       <h1 className="mt-6 text-4xl font-bold">RPG</h1>

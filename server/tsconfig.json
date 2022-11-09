@@ -3,6 +3,10 @@
   "compilerOptions": {
     "strict": true,
     "target": "ESNext",
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "skipDefaultLibCheck": true,
+    "skipLibCheck": true,
     "paths": {
       "@*": [
         "./src/*",

@@ -5,6 +5,10 @@ generator client {
   provider = "prisma-client-js"
 }
 
+generator typegraphql {
+  provider = "typegraphql-prisma"
+}
+
 datasource db {
   provider = "mongodb"
   url      = env("DATABASE_URL")
@@ -12,6 +16,7 @@ datasource db {
 
 model User {
   name     String    @id @map("_id")
+  color    String?
   Sent     Message[] @relation("Sent")
   Received Message[] @relation("Received")
 }

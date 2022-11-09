@@ -1,10 +1,16 @@
 import express, { type Express } from 'express';
 
 import cors from 'cors';
-import lt from './lt';
 import { compress } from 'lzutf8';
 import { createServer } from 'http';
 import { Server } from 'ws';
+import { json } from 'body-parser';
+import { resolvers } from '@generated/type-graphql';
+import { buildSchema } from 'type-graphql';
+import { ApolloServer } from '@apollo/server';
+import { expressMiddleware } from '@apollo/server/express4';
+import { ApolloServerPluginDrainHttpServer } from '@apollo/server/plugin/drainHttpServer';
+import lt from './lt';
 import { onConnection } from './ws';
 
 export const port = 9876;
@@ -36,3 +42,21 @@ server.listen(port, async () => {
     NODE_ENV >>= ${env}
     `);
 });
+
+export const initApollo = async () => {
+  const schema = await buildSchema({
+    resolvers,
+    validate: false,
+  });
+
+  const apollo = new ApolloServer({
+    schema,
+    plugins: [
+      ApolloServerPluginDrainHttpServer({ httpServer: server }),
+    ],
+  });
+
+  await apollo.start();
+
+  app.use('/graphql', json(), expressMiddleware(apollo));
+};

@@ -1,8 +1,11 @@
 /* eslint-disable @typescript-eslint/restrict-plus-operands */
+import 'reflect-metadata';
 
-import { app } from './config';
+import { app, initApollo } from './config';
 
 import Message from './db/controller/Message';
+
+initApollo();
 
 // request delay
 app.use((_, __, next) => setTimeout(next, 666));
