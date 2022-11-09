@@ -6,6 +6,14 @@ import { isImage } from './helpers/isImage';
 import { useStore } from './store';
 import Sheet from './component/Sheet';
 
+import { getSdk } from './generated';
+import { GraphQLClient } from 'graphql-request';
+
+const client = new GraphQLClient(
+  'http://localhost:9876/graphql',
+);
+const sdk = getSdk(client);
+
 const loadMessage = async () =>
   await fetch('http://localhost:9876/messages').then(
     async (r) => (await r.json()) as MessageModel[],
@@ -20,14 +28,16 @@ export const App = () => {
       .catch(console.warn);
   }, []);
 
-  if (Number)
-    return (
-      <Modal show={true}>
-        <Sheet />
-      </Modal>
-    );
+  // if (Number)
+  //   return (
+  //     <Modal show={true}>
+  //       <Sheet />
+  //     </Modal>
+  //   );
 
-  console.log(process.env['DATABASE_URL']);
+  const frag = sdk.Sheets({});
+
+  console.log(frag);
 
   return (
     <>

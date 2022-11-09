@@ -9,9 +9,9 @@ import { resolvers } from '@generated/type-graphql';
 import { buildSchema } from 'type-graphql';
 import { ApolloServer } from '@apollo/server';
 import { expressMiddleware } from '@apollo/server/express4';
-import { ApolloServerPluginDrainHttpServer } from '@apollo/server/plugin/drainHttpServer';
 import lt from './lt';
 import { onConnection } from './ws';
+import prisma from '@db';
 
 export const port = 9876;
 export const app = express() as Express;
@@ -51,12 +51,15 @@ export const initApollo = async () => {
 
   const apollo = new ApolloServer({
     schema,
-    plugins: [
-      ApolloServerPluginDrainHttpServer({ httpServer: server }),
-    ],
   });
 
   await apollo.start();
 
-  app.use('/graphql', json(), expressMiddleware(apollo));
+  app.use(
+    '/graphql',
+    json(),
+    expressMiddleware(apollo, {
+      context: async () => ({ prisma }),
+    }),
+  );
 };
