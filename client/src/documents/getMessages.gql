@@ -1,0 +1,9 @@
+query Messages {
+  messages {
+    id
+    rName
+    sName
+    text
+    createdAt
+  }
+}

@@ -8,23 +8,20 @@ import Sheet from './component/sheet';
 
 import { getSdk } from './generated';
 import { GraphQLClient } from 'graphql-request';
-import usePromise from './helpers/usePromise';
+import usePromise from '@helpers/usePromise';
 
 const client = new GraphQLClient(
   'http://localhost:9876/graphql',
 );
 const sdk = getSdk(client);
 
-const loadMessage = async () =>
-  await fetch('http://localhost:9876/messages').then(
-    async (r) => (await r.json()) as MessageModel[],
-  );
-
 export const App = () => {
   const { messages, set } = useStore();
 
   useEffect(() => {
-    loadMessage()
+    sdk
+      .Messages()
+      .then((r) => r.messages)
       .then((ms) => set({ messages: ms }))
       .catch(console.warn);
   }, []);
@@ -45,7 +42,7 @@ export const App = () => {
       <ul className="mt-6 flex flex-col-reverse overflow-y-scroll">
         {[...messages].reverse().map((m) => (
           <li
-            key={m.createdAt}
+            key={m.id}
             className="mb-2 flex flex-col items-start p-4 pb-5"
           >
             <h2 className="text-lg">

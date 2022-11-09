@@ -1,5 +1,7 @@
-import type Message from '@server/src/db/model/Message';
+import type { MessagesQuery } from '@generated';
 import create from 'zustand';
+
+type Message = MessagesQuery['messages'][0];
 
 interface Store {
   messages: Message[];
