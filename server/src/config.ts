@@ -3,22 +3,39 @@ import express, { type Express } from 'express';
 import cors from 'cors';
 import { compress } from 'lzutf8';
 import { createServer } from 'http';
-import { Server } from 'ws';
+import WebSocket, { WebSocketServer } from 'ws';
 import { json } from 'body-parser';
 import { resolvers } from '@generated/type-graphql';
-import { buildSchema } from 'type-graphql';
+import { buildTypeDefsAndResolvers } from 'type-graphql';
 import { ApolloServer } from '@apollo/server';
 import { expressMiddleware } from '@apollo/server/express4';
 import lt from './lt';
-import { onConnection } from './ws';
 import prisma from '@db';
-import { useServer } from 'graphql-ws/lib/use/ws';
+import { makeExecutableSchema } from '@graphql-tools/schema';
 
 export const port = 9876;
 export const app = express() as Express;
 export const server = createServer(app);
-export const ws = new Server({ server, path: '/graphql' });
-ws.on('connection', onConnection);
+export const ws = new WebSocketServer({
+  server,
+  path: '/graphql',
+});
+
+const clients = new Set<WebSocket>();
+
+ws.on('connection', (client) => {
+  clients.add(client);
+
+  client.addEventListener('message', (m) => {
+    clients.forEach((c) => {
+      if (c.readyState === 1) c.send(m.data);
+    });
+  });
+});
+
+ws.on('close', (s: WebSocket) => {
+  clients.delete(s);
+});
 
 app.use(cors()); // tnc
 
@@ -39,9 +56,14 @@ server.listen(port, async () => {
 });
 
 export const initApollo = async () => {
-  const schema = await buildSchema({
+  const build = await buildTypeDefsAndResolvers({
     resolvers,
     validate: false,
+  });
+
+  const schema = makeExecutableSchema({
+    typeDefs: build.typeDefs,
+    resolvers: build.resolvers,
   });
 
   const apollo = new ApolloServer({
@@ -49,8 +71,6 @@ export const initApollo = async () => {
   });
 
   await apollo.start();
-
-  useServer({ schema }, ws);
 
   app.use(
     '/graphql',

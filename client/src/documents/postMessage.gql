@@ -1,0 +1,9 @@
+mutation CreateOneMessage($data: MessageCreateInput!) {
+  createOneMessage(data: $data) {
+    rName
+    sName
+    text
+    createdAt
+    id
+  }
+}

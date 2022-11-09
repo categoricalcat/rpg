@@ -1,53 +1,43 @@
-import Message from '../Message';
+import { send } from '../Message';
 import { PaperClipIcon } from '@heroicons/react/20/solid';
 
-import { FormEvent, useState } from 'react';
+import { useState } from 'react';
+import { useStore } from '@store';
 
 interface DataForm {
-  file: File;
   'chat-message': string;
 }
 
-const submit =
-  ({ 'chat-message': message, file }: Partial<DataForm>) =>
-  (e: FormEvent) => {
-    e.preventDefault();
-
-    const msg = new Message(message, file);
-
-    msg.send().catch(console.warn);
-  };
-
 export default () => {
-  const [preview, setPreview] = useState<string | null>(null);
+  const store = useStore();
   const [form, setf] = useState<HTMLFormElement | null>();
 
   const getData = (): Partial<DataForm> =>
     Object.fromEntries(new FormData(form ?? undefined) as any);
 
+  const submit = () => {
+    const data = getData();
+    if (!data['chat-message']) return;
+
+    send(data['chat-message'], 'me', 'you')
+      .then((r) => r.createOneMessage)
+      .then((m) => store.addMessage(m));
+  };
+
   return (
     <form
       ref={setf}
-      onSubmit={submit(getData())}
-      onInput={(e) => {
-        const target = e.target as HTMLInputElement;
-        if (target.name !== 'file') return;
-
-        const newData = getData();
-        const file = newData.file as File;
-        const reader = new FileReader();
-
-        reader.readAsDataURL(file);
-        reader.addEventListener('loadend', () => {
-          setPreview(reader.result as string);
-        });
+      onSubmit={(e) => {
+        e.preventDefault();
+        submit();
       }}
       className="relative mt-4"
     >
       <textarea
         onKeyDown={(e) => {
           if (e.key !== 'Enter' || e.shiftKey) return;
-          submit(getData())(e);
+          e.preventDefault();
+          submit();
 
           const target = e.target as HTMLTextAreaElement;
           target.value = '';
@@ -77,8 +67,6 @@ export default () => {
       >
         Send
       </button>
-
-      {preview && <img src={preview} />}
     </form>
   );
 };

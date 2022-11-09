@@ -1,6 +1,8 @@
+import { getSdk } from '@generated';
+import type { DocumentNode } from 'graphql';
+import { GraphQLClient } from 'graphql-request';
 import { decompress } from 'lzutf8';
 import secretReset from './helpers/secretReset';
-import { useStore } from './store';
 
 secretReset(() => {
   localStorage.removeItem('token');
@@ -17,31 +19,46 @@ if (!localStorage.getItem('token')) {
 }
 
 const token_ = localStorage.getItem('token');
-const token =
-  decompress(token_, { inputEncoding: 'Base64' }).trim() ||
-  'ws://localhost:9876';
+const token = (decompress(token_, {
+  inputEncoding: 'Base64',
+}).trim() || 'ws://localhost:9876') as string;
 
-const ws = new window.WebSocket(token);
+export const doc2String = (doc: DocumentNode) =>
+  (doc.loc && doc.loc.source.body) || '';
 
-ws.addEventListener('open', (e) => {
-  console.log('connected', e);
-});
+const ws = new WebSocket(`${token}/graphql`);
 
-ws.addEventListener(
-  'message',
-  // eslint-disable-next-line @typescript-eslint/no-misused-promises
-  async ({ data }: MessageEvent<Blob>) => {
-    const json = await data
-      .text()
-      .then(JSON.parse)
-      .catch(async (e) => {
-        data.text().then(console.warn);
+ws.addEventListener('connected', console.warn);
+ws.addEventListener('error', console.log);
 
-        throw e;
-      });
-
-    useStore.getState().addMessage(json);
-  },
+export const client = new GraphQLClient(
+  `${token.replace('ws', 'http')}/graphql`,
 );
+export const sdk = getSdk(client);
+
+export type SDK = typeof sdk;
+
+export const query = async <T>(
+  name: string,
+  fn: (sdk: SDK) => Promise<T>,
+) => {
+  const res = await fn(sdk);
+
+  ws.send(
+    JSON.stringify({
+      type: name,
+      payload: res,
+    }),
+  );
+
+  return await new Promise<T>((res) => {
+    ws.addEventListener('message', (m) => {
+      console.log({ m });
+      const { type, payload } = JSON.parse(m.data);
+
+      if (type === name) res(payload);
+    });
+  });
+};
 
 export default ws;
