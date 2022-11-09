@@ -12,20 +12,15 @@ import { expressMiddleware } from '@apollo/server/express4';
 import lt from './lt';
 import { onConnection } from './ws';
 import prisma from '@db';
+import { useServer } from 'graphql-ws/lib/use/ws';
 
 export const port = 9876;
 export const app = express() as Express;
 export const server = createServer(app);
-export const ws = new Server({ noServer: true });
+export const ws = new Server({ server, path: '/graphql' });
 ws.on('connection', onConnection);
 
 app.use(cors()); // tnc
-
-server.on('upgrade', (request, socket, head) => {
-  ws.handleUpgrade(request, socket, head, (socket) => {
-    ws.emit('connection', socket, request);
-  });
-});
 
 // eslint-disable-next-line @typescript-eslint/no-misused-promises
 server.listen(port, async () => {
@@ -54,6 +49,8 @@ export const initApollo = async () => {
   });
 
   await apollo.start();
+
+  useServer({ schema }, ws);
 
   app.use(
     '/graphql',

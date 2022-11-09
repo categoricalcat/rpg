@@ -2,6 +2,7 @@ import dotenv from 'dotenv';
 import path from 'path';
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
+import tsconfigPaths from 'vite-tsconfig-paths';
 
 import slugify from 'slugify';
 
@@ -10,7 +11,10 @@ dotenv.config();
 const target = ['chrome100'];
 
 export default defineConfig(() => ({
-  plugins: [react({})],
+  plugins: [
+    react({}),
+    tsconfigPaths({ root: path.resolve(__dirname) }),
+  ],
   root: 'src',
   logLevel: 'info',
   esbuild: {

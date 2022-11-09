@@ -9,6 +9,14 @@ import Sheet from './component/sheet';
 import { getSdk } from './generated';
 import { GraphQLClient } from 'graphql-request';
 import usePromise from '@helpers/usePromise';
+import { createClient } from 'graphql-ws';
+
+const ws = createClient({
+  url: 'ws://localhost:9876/graphql',
+});
+
+ws.on('connected', console.warn);
+ws.on('error', console.warn);
 
 const client = new GraphQLClient(
   'http://localhost:9876/graphql',
