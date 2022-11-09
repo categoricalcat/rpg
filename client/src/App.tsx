@@ -6,10 +6,12 @@ import { useStore } from './store';
 import Sheet from './component/sheet';
 
 import usePromise from '@helpers/usePromise';
-import { sdk } from '@socket';
+import { sdk, ws$ } from '@socket';
+import use$ from '@helpers/use$';
+import WS_TYPES from '@helpers/WS_TYPES';
 
 export const App = () => {
-  const { messages, set } = useStore();
+  const { messages, set, addMessage } = useStore();
 
   useEffect(() => {
     sdk
@@ -20,6 +22,14 @@ export const App = () => {
   }, []);
 
   const sheet = usePromise(() => sdk.Sheets());
+  const ws = use$(() => ws$);
+
+  useEffect(() => {
+    if (!ws) return;
+
+    if (ws.type === WS_TYPES.NEW_MESSAGE)
+      addMessage(ws.payload.createOneMessage);
+  }, [ws]);
 
   if (!sheet) return null;
 
@@ -31,7 +41,7 @@ export const App = () => {
 
       <h1 className="mt-6 text-4xl font-bold">RPG</h1>
 
-      <ul className="mt-6 flex max-h-56 flex-col-reverse  overflow-y-scroll">
+      <ul className="mt-6 flex max-h-80 flex-col-reverse  overflow-y-scroll">
         {[...messages].reverse().map((m) => (
           <li
             key={m.id}

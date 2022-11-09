@@ -2,14 +2,12 @@ import { send } from '../Message';
 import { PaperClipIcon } from '@heroicons/react/20/solid';
 
 import { useState } from 'react';
-import { useStore } from '@store';
 
 interface DataForm {
   'chat-message': string;
 }
 
 export default () => {
-  const store = useStore();
   const [form, setf] = useState<HTMLFormElement | null>();
 
   const getData = (): Partial<DataForm> =>
@@ -19,9 +17,7 @@ export default () => {
     const data = getData();
     if (!data['chat-message']) return;
 
-    send(data['chat-message'], 'me', 'you')
-      .then((r) => r.createOneMessage)
-      .then((m) => store.addMessage(m));
+    send(data['chat-message'], 'me', 'you').catch(console.log);
   };
 
   return (

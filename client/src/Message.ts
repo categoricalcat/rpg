@@ -1,4 +1,5 @@
-import socket, { query } from './socket';
+import WS_TYPES from '@helpers/WS_TYPES';
+import { query } from './socket';
 
 export const handlerJSON = async <R = Record<string, string>>(
   r: Response,
@@ -24,7 +25,7 @@ export const send = (
   sender: string,
   receiver: string,
 ) => {
-  return query('NEW_MESSAGE', (sdk) =>
+  return query(WS_TYPES.NEW_MESSAGE, (sdk) =>
     sdk.CreateOneMessage({
       data: {
         text: text,

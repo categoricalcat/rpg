@@ -3,6 +3,7 @@ import type { DocumentNode } from 'graphql';
 import { GraphQLClient } from 'graphql-request';
 import { decompress } from 'lzutf8';
 import secretReset from './helpers/secretReset';
+import { Observable } from 'rxjs';
 
 secretReset(() => {
   localStorage.removeItem('token');
@@ -28,37 +29,40 @@ export const doc2String = (doc: DocumentNode) =>
 
 const ws = new WebSocket(`${token}/graphql`);
 
+export const ws$ = new Observable<WsEvent>((subscriber) =>
+  ws.addEventListener('message', (event) => {
+    const data = JSON.parse(event.data);
+
+    subscriber.next({
+      ...data,
+      event,
+    });
+  }),
+);
+
 ws.addEventListener('connected', console.warn);
 ws.addEventListener('error', console.log);
 
 export const client = new GraphQLClient(
   `${token.replace('ws', 'http')}/graphql`,
 );
-export const sdk = getSdk(client);
 
+export const sdk = getSdk(client);
 export type SDK = typeof sdk;
 
-export const query = async <T>(
-  name: string,
+export const query = <T>(
+  type: string,
   fn: (sdk: SDK) => Promise<T>,
-) => {
-  const res = await fn(sdk);
+) =>
+  fn(sdk).then((payload) => {
+    ws.send(
+      JSON.stringify({
+        type,
+        payload,
+      }),
+    );
 
-  ws.send(
-    JSON.stringify({
-      type: name,
-      payload: res,
-    }),
-  );
-
-  return await new Promise<T>((res) => {
-    ws.addEventListener('message', (m) => {
-      console.log({ m });
-      const { type, payload } = JSON.parse(m.data);
-
-      if (type === name) res(payload);
-    });
+    return payload;
   });
-};
 
 export default ws;
