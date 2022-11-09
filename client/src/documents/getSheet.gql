@@ -1,5 +1,47 @@
 query Sheets {
   sheets {
     name
+    attribute {
+      STR
+      DEX
+      CON
+      INT
+      WIS
+      CHA
+      PWR
+    }
+    description
+    items {
+      photo
+      name
+      description
+      exertion
+      active
+      type
+      modifier {
+        STR
+        DEX
+        CON
+        INT
+        WIS
+        CHA
+        PWR
+      }
+    }
+    race {
+      name
+      description
+      attributes {
+        STR
+        DEX
+        CON
+        INT
+        WIS
+        CHA
+        PWR
+      }
+    }
+    rName
+    photo
   }
 }

@@ -4,10 +4,11 @@ import ChatInput from './component/ChatInput';
 import Modal from './component/Modal';
 import { isImage } from './helpers/isImage';
 import { useStore } from './store';
-import Sheet from './component/Sheet';
+import Sheet from './component/sheet';
 
 import { getSdk } from './generated';
 import { GraphQLClient } from 'graphql-request';
+import usePromise from './helpers/usePromise';
 
 const client = new GraphQLClient(
   'http://localhost:9876/graphql',
@@ -28,16 +29,14 @@ export const App = () => {
       .catch(console.warn);
   }, []);
 
-  // if (Number)
-  //   return (
-  //     <Modal show={true}>
-  //       <Sheet />
-  //     </Modal>
-  //   );
+  const sheet = usePromise(() => sdk.Sheets());
 
-  const frag = sdk.Sheets({});
-
-  console.log(frag);
+  if (sheet)
+    return (
+      <Modal show={true}>
+        <Sheet {...sheet} />
+      </Modal>
+    );
 
   return (
     <>

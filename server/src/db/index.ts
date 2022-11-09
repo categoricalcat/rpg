@@ -75,7 +75,38 @@ export const sheet = () =>
         ],
       },
     },
-    update: {},
+    update: {
+      items: {
+        set: [
+          {
+            description: 'A sword',
+            name: 'Sword',
+            type: 'ITEM',
+            exertion: '3.6 + 2',
+            photo:
+              'https://thumbs.dreamstime.com/b/fantasy-sword-27396061.jpg',
+            modifier: {
+              STR: 0,
+              DEX: 0,
+              CON: 0,
+              INT: 2,
+              WIS: 1,
+              CHA: 2,
+              PWR: 0,
+            },
+          },
+          {
+            description:
+              'A ball filled with explosive or combustible material, used as a projectile to injure the enemy by explosion or to set fire to their works.',
+            name: 'FireBall',
+            type: 'SPELL',
+            exertion: '6.6 + PWR',
+            photo:
+              'https://w7.pngwing.com/pngs/1002/631/png-transparent-fireball-cinnamon-whisky-asteroid-s-leaf-orange-computer-wallpaper.png',
+          },
+        ],
+      },
+    },
     where: {
       name: 'Dhurvok',
     },
