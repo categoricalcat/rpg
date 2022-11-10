@@ -1,5 +1,5 @@
-query Sheets {
-  sheets {
+query getSheet($where: SheetWhereInput) {
+  findFirstSheet(where: $where) {
     name
     attribute {
       STR

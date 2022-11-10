@@ -20,6 +20,7 @@ model User {
   color    String?
   Sent     Message[] @relation("Sent")
   Received Message[] @relation("Received")
+  Sheet    Sheet[]
 }
 
 model Message {
@@ -65,11 +66,13 @@ model Race {
 }
 
 model Sheet {
-  photo       String
   name        String    @id @map("_id")
-  race        Race      @relation(fields: [rName], references: [name])
-  rName       String
+  photo       String
   description String
+  userName    String
+  rName       String
   attribute   Attribute
   items       Item[]
+  user        User      @relation(fields: [userName], references: [name])
+  race        Race      @relation(fields: [rName], references: [name])
 }

@@ -12,8 +12,11 @@ const target = ['chrome100'];
 
 export default defineConfig(() => ({
   plugins: [
+    tsconfigPaths({
+      root: path.resolve(__dirname),
+      loose: true,
+    }),
     react({}),
-    tsconfigPaths({ root: path.resolve(__dirname) }),
   ],
   root: 'src',
   logLevel: 'info',

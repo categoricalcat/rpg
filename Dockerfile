@@ -1,15 +1,4 @@
-FROM node:latest as install
-
-WORKDIR /usr/src/app
-
-RUN apt update && apt install -y git
-
-COPY package.json pnpm-lock.yaml ./
-
-RUN npm install -g pnpm
-RUN pnpm install
-
-FROM install as client
+FROM node:latest as client
 
 ARG PORT
 ENV PORT $PORT
@@ -20,7 +9,8 @@ EXPOSE ${PORT}
 
 CMD ["pnpm", "start:client"]
 
-FROM install as server
+# server
+FROM node:latest as server
 
 ARG PORT
 ENV PORT $PORT

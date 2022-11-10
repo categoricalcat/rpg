@@ -5,13 +5,14 @@ import { isImage } from './helpers/isImage';
 import { useStore } from './store';
 import Sheet from './component/sheet';
 
-import usePromise from '@helpers/usePromise';
 import { sdk, ws$ } from '@socket';
 import use$ from '@helpers/use$';
 import WS_TYPES from '@helpers/WS_TYPES';
 
+import { getRolls } from '@helpers/roll';
+
 export const App = () => {
-  const { messages, set, addMessage } = useStore();
+  const { messages, set, addMessage, sheet } = useStore();
 
   useEffect(() => {
     sdk
@@ -19,9 +20,14 @@ export const App = () => {
       .then((r) => r.messages)
       .then((ms) => set({ messages: ms }))
       .catch(console.warn);
+
+    sdk
+      .getSheet({ where: { userName: { equals: 'me' } } })
+      .then((r) => r.findFirstSheet)
+      .then((s) => set({ sheet: s }))
+      .catch(console.warn);
   }, []);
 
-  const sheet = usePromise(() => sdk.Sheets());
   const ws = use$(() => ws$);
 
   useEffect(() => {
@@ -32,6 +38,14 @@ export const App = () => {
   }, [ws]);
 
   if (!sheet) return null;
+
+  console.log(
+    'Rolando => 1.20 + 2.6 + 3 + INT + PWR',
+    '\n',
+    '\n',
+    'Rolada =>',
+    getRolls('1.20 + 2.6 + 3 + INT + PWR'),
+  );
 
   return (
     <>

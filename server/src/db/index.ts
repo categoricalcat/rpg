@@ -31,6 +31,11 @@ export const sheet = () =>
           PWR: 5,
         },
       },
+      user: {
+        connect: {
+          name: 'me',
+        },
+      },
       race: {
         connectOrCreate: {
           where: {
@@ -76,6 +81,11 @@ export const sheet = () =>
       },
     },
     update: {
+      user: {
+        connect: {
+          name: 'me',
+        },
+      },
       items: {
         set: [
           {

@@ -1,4 +1,4 @@
-import roll from './roll';
+import roll from '../../client/src/helpers/roll';
 import yell from './yell';
 
 type FN = (...args: string[]) => string;
