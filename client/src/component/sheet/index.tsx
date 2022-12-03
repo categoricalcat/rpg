@@ -1,4 +1,4 @@
-import type { SheetsQuery } from '@generated';
+import type { GetSheetQuery } from '@generated';
 import { useState } from 'react';
 import { Button } from '../Button';
 import Input from '../Input';
@@ -6,23 +6,35 @@ import TextArea from '../TextArea';
 import { Item } from './Item';
 import { Stat } from './Stat';
 
-export default function Sheet(props: SheetsQuery) {
-  const {
-    sheets: [sheet],
-  } = props;
+type NonNullable<T> = Exclude<T, null | undefined>;
 
-  if (!sheet) return null;
+type Props = NonNullable<GetSheetQuery['findFirstSheet']>;
 
+export default function Sheet(props: Props) {
   const { photo, attribute, description, items, name, race } =
-    sheet;
+    props;
 
   const [image, setImage] = useState(photo);
 
-  const attributes = Object.entries(attribute);
+  const attributes = Object.entries(attribute) as [
+    keyof typeof attribute,
+    number,
+  ][];
   const items_ = items.filter((i) => i.type === 'ITEM');
   const spells = items.filter((i) => i.type === 'SPELL');
 
-  console.log(sheet);
+  const itemsSum = [...items, ...items]
+    .map((i) => i.modifier)
+    .filter((m) => !!m)
+    .map((m) => Object.entries(m!))
+    .reduce((acc, stats) => {
+      stats.forEach(([k, v]) => {
+        // @ts-ignore
+        acc[k] = (acc[k] ?? 0) + v;
+      });
+
+      return acc;
+    }, {} as typeof attribute);
 
   return (
     <form
@@ -39,10 +51,10 @@ export default function Sheet(props: SheetsQuery) {
     >
       <div className="flex flex-wrap">
         <h3 className="mt-4 mb-4 w-full text-center text-xl font-bold uppercase tracking-wide">
-          Character Sheet
+          Character Sheet | Items
         </h3>
 
-        <div className="flex w-1/2 flex-col gap-10 p-6">
+        <div className="flex w-1/2 flex-col gap-10 p-6 shadow-md">
           <Input
             label="Name"
             name="char-name"
@@ -77,7 +89,27 @@ export default function Sheet(props: SheetsQuery) {
               <Stat
                 key={stat}
                 stat={stat}
-                value={value as number}
+                valuen={value + +(itemsSum[stat] || 0)}
+                value={
+                  itemsSum[stat] ? (
+                    <>
+                      <span className="text-yellow-400">
+                        {value}
+                      </span>{' '}
+                      +{' '}
+                      <span className="text-red-600">
+                        {itemsSum[stat]}
+                      </span>
+                      <span className="absolute ml-2 text-sm text-neutral-500">
+                        {+value + +(itemsSum[stat] || 0)}
+                      </span>
+                    </>
+                  ) : (
+                    <span className="text-yellow-400">
+                      {value}
+                    </span>
+                  )
+                }
               />
             ))}
           </dl>
@@ -97,6 +129,7 @@ export default function Sheet(props: SheetsQuery) {
           </ul>
         </div>
       </div>
+
       <div className="bg-neutral-700 px-4 py-3 text-right sm:px-6">
         <Button>Save</Button>
       </div>

@@ -1,22 +1,8 @@
-FROM node:latest as client
+FROM ubuntu:latest
 
-ARG PORT
-ENV PORT $PORT
+WORKDIR /app
 
-WORKDIR /usr/src/app
+COPY . .
 
-EXPOSE ${PORT}
-
-CMD ["pnpm", "start:client"]
-
-# server
-FROM node:latest as server
-
-ARG PORT
-ENV PORT $PORT
-
-WORKDIR /usr/src/app
-
-EXPOSE ${PORT}
-
-CMD ["pnpm", "start:server"]
+# keep container running
+CMD tail -f /dev/null

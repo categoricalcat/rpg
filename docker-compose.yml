@@ -5,27 +5,30 @@ services:
     image: rpg/client
     container_name: rpg-client
     build:
-      context: .
+      context: ./client
       dockerfile: Dockerfile
-      target: client
+    environment:
+      - CONTAINER=true
     ports:
       - 6789:6789
-    volumes:
-      - node_modules:/usr/src/app/node_modules
-      - .:/usr/src/app
 
   server:
     image: rpg/server
     container_name: rpg-server
     build:
-      context: .
-      dockerfile: Dockerfile
-      target: server
+      context: ./server
+      dockerfile: ./Dockerfile
     ports:
       - 9876:9876
+
+  shared:
+    image: rpg/shared
+    container_name: rpg-shared
     volumes:
-      - node_modules:/usr/src/app/node_modules
-      - .:/usr/src/app
+      - shared:/app
+    build:
+      context: .
+      dockerfile: ./Dockerfile
 
 volumes:
-  node_modules:
+  shared:

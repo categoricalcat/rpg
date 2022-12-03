@@ -33,7 +33,7 @@ export default defineConfig(() => ({
   define: {
     'process.env': {
       NODE_ENV: JSON.stringify(process.env['NODE_ENV']),
-      DATABASE_URL: JSON.stringify(process.env['DATABASE_URL']),
+      CONTAINER: JSON.stringify(process.env['CONTAINER']),
     },
   },
   resolve: {

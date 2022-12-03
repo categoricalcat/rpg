@@ -20,7 +20,8 @@
     "dev": "pnpm --stream -r dev",
     "docker": "bash ./scripts/start.bash",
     "generate": "pnpm --stream -r generate",
-    "preinstall": "ncu && pnpm sort",
-    "sort": "pnpm -r exec npx sort-package-json"
+    "preinstall": "pnpm ncu && pnpm sort",
+    "sort": "pnpm -r exec npx sort-package-json",
+    "ncu": "pnpm -r exec npx npm-check-updates"
   }
 }

@@ -8,8 +8,7 @@ import Sheet from './component/sheet';
 import { sdk, ws$ } from '@socket';
 import use$ from '@helpers/use$';
 import WS_TYPES from '@helpers/WS_TYPES';
-
-import { getRolls } from '@helpers/roll';
+import Loader from '@assets/Loader';
 
 export const App = () => {
   const { messages, set, addMessage, sheet } = useStore();
@@ -24,7 +23,7 @@ export const App = () => {
     sdk
       .getSheet({ where: { userName: { equals: 'me' } } })
       .then((r) => r.findFirstSheet)
-      .then((s) => set({ sheet: s }))
+      .then((s) => set({ sheet: s || null }))
       .catch(console.warn);
   }, []);
 
@@ -37,19 +36,11 @@ export const App = () => {
       addMessage(ws.payload.createOneMessage);
   }, [ws]);
 
-  if (!sheet) return null;
-
-  console.log(
-    'Rolando => 1.20 + 2.6 + 3 + INT + PWR',
-    '\n',
-    '\n',
-    'Rolada =>',
-    getRolls('1.20 + 2.6 + 3 + INT + PWR'),
-  );
+  if (!sheet || !messages.length) return <Loader />;
 
   return (
     <>
-      <Modal show={false}>
+      <Modal show={true}>
         <Sheet {...sheet} />
       </Modal>
 

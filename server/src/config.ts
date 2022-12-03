@@ -26,11 +26,11 @@ const clients = new Set<WebSocket>();
 ws.on('connection', (client) => {
   clients.add(client);
 
-  client.addEventListener('message', (m) => {
+  client.addEventListener('message', (m) =>
     clients.forEach((c) => {
       if (c.readyState === 1) c.send(m.data);
-    });
-  });
+    }),
+  );
 });
 
 ws.on('close', (s: WebSocket) => {
