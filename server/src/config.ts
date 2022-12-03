@@ -42,9 +42,11 @@ app.use(cors()); // tnc
 // eslint-disable-next-line @typescript-eslint/no-misused-promises
 server.listen(port, async () => {
   const url = await lt.listen();
+
   const c = compress(url, {
     outputEncoding: 'Base64',
   }) as string;
+
   const env = process.env['NODE_ENV'] as string;
 
   console.log(`
