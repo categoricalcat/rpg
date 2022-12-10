@@ -2,33 +2,34 @@ version: 'latest'
 
 services:
   client:
+    restart: always
     image: rpg/client
     container_name: rpg-client
-    build:
-      context: ./client
-      dockerfile: Dockerfile
-    environment:
-      - CONTAINER=true
-    ports:
-      - 6789:6789
-
-  server:
-    image: rpg/server
-    container_name: rpg-server
-    build:
-      context: ./server
-      dockerfile: ./Dockerfile
-    ports:
-      - 9876:9876
-
-  shared:
-    image: rpg/shared
-    container_name: rpg-shared
     volumes:
-      - shared:/app
+      - ./client:/usr/src/app/client
+      - /usr/src/app/client/node_modules
     build:
       context: .
       dockerfile: ./Dockerfile
+      target: client
+    environment:
+      - CONTAINER=true
+      - HOST=server
+    ports:
+      - 6789:6789
+    depends_on:
+      - server
 
-volumes:
-  shared:
+  server:
+    restart: always
+    image: rpg/server
+    container_name: rpg-server
+    volumes:
+      - ./server:/usr/src/app/server
+      - /usr/src/app/server/node_modules
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+      target: server
+    ports:
+      - 9876:9876

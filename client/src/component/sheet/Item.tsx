@@ -1,7 +1,7 @@
-import type { SheetsQuery } from '@generated';
+import type { Sheet } from '@generated';
 import { EyeDropperIcon } from '@heroicons/react/20/solid';
 
-type ItemProps = SheetsQuery['sheets'][0]['items'][0];
+type ItemProps = Sheet['items'][0];
 
 export const Item = ({
   description,
@@ -42,7 +42,7 @@ export const Item = ({
               if (value === 0) return str;
               const nv = value > 0 ? `+${key}` : `-${key}`;
 
-              return `${str}|${nv}`;
+              return `${str} | ${nv}`;
             },
             '',
           )}
