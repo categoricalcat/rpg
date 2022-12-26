@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/restrict-plus-operands */
 import 'reflect-metadata';
 
-import { app, initApollo } from './config';
+import { app, initApollo } from '@config';
 
 initApollo();
 
