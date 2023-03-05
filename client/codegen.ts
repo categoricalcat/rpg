@@ -1,6 +1,6 @@
 import type { CodegenConfig } from '@graphql-codegen/cli';
 
-const host = process.env.HOST || 'localhost';
+const host = process.env.HOST || 'server';
 
 const config: CodegenConfig = {
   overwrite: true,

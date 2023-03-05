@@ -1,7 +1,6 @@
 import { getSdk } from '@generated';
 import type { DocumentNode } from 'graphql';
 import { GraphQLClient } from 'graphql-request';
-import { decompress } from 'lzutf8';
 import secretReset from './helpers/secretReset';
 import { Observable } from 'rxjs';
 
@@ -9,20 +8,14 @@ secretReset(() => {
   localStorage.removeItem('token');
 });
 
-if (!localStorage.getItem('token')) {
-  const nToken = prompt('Enter token');
+if (!localStorage.getItem('token'))
+  localStorage.setItem(
+    'token',
+    prompt('Enter token') || 'ws://localhost:9876',
+  );
 
-  if (!nToken) {
-    throw new Error('No token provided');
-  }
-
-  localStorage.setItem('token', nToken);
-}
-
-const token_ = localStorage.getItem('token');
-const token = (decompress(token_, {
-  inputEncoding: 'Base64',
-}).trim() || 'ws://localhost:9876') as string;
+const token =
+  localStorage.getItem('token') || 'ws://localhost:9876';
 
 export const doc2String = (doc: DocumentNode) =>
   (doc.loc && doc.loc.source.body) || '';

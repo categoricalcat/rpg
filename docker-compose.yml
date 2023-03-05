@@ -2,20 +2,21 @@ version: 'latest'
 
 services:
   mongo:
+    ports:
+      - 27017:27017
     image: mongo
     restart: always
     environment:
       MONGO_INITDB_ROOT_USERNAME: root
       MONGO_INITDB_ROOT_PASSWORD: example
-    ports:
-      - 27017:27017
+
 
   client:
     restart: always
     image: rpg/client
     container_name: rpg-client
     volumes:
-      - ./client:/usr/src/app/client
+      - ./:/usr/src/app
       - /usr/src/app/client/node_modules
     build:
       context: .
@@ -23,7 +24,6 @@ services:
       target: client
     environment:
       - CONTAINER=true
-      - HOST=server
     ports:
       - 6789:6789
     depends_on:
@@ -34,7 +34,7 @@ services:
     image: rpg/server
     container_name: rpg-server
     volumes:
-      - ./server:/usr/src/app/server
+      - ./:/usr/src/app
       - /usr/src/app/server/node_modules
     build:
       context: .

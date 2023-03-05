@@ -1,5 +1,5 @@
 import type { GetSheetQuery, MessagesQuery } from '@generated';
-import create from 'zustand';
+import {create} from 'zustand';
 
 type Message = MessagesQuery['messages'][0];
 type Sheet = GetSheetQuery['findFirstSheet'];

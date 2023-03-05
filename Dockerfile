@@ -4,7 +4,7 @@ WORKDIR /usr/src/app
 
 COPY . .
 
-RUN npm install -g pnpm
+RUN npm install -g pnpm nodemon
 
 RUN pnpm install
 
