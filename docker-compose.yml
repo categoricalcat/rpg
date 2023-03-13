@@ -16,7 +16,7 @@ services:
     image: rpg/client
     container_name: rpg-client
     volumes:
-      - ./:/usr/src/app
+      - ./client:/usr/src/app/client
       - /usr/src/app/client/node_modules
     build:
       context: .
@@ -27,14 +27,17 @@ services:
     ports:
       - 6789:6789
     depends_on:
-      - server
+      server:
+        condition: service_healthy
 
   server:
+    depends_on:
+      - mongo
     restart: always
     image: rpg/server
     container_name: rpg-server
     volumes:
-      - ./:/usr/src/app
+      - ./server:/usr/src/app/server
       - /usr/src/app/server/node_modules
     build:
       context: .
@@ -42,3 +45,8 @@ services:
       target: server
     ports:
       - 9876:9876
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:9876"]
+      interval: 30s
+      timeout: 10s
+      retries: 5

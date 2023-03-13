@@ -4,7 +4,7 @@ WORKDIR /usr/src/app
 
 COPY . .
 
-RUN npm install -g pnpm nodemon
+RUN npm install -g pnpm
 
 RUN pnpm install
 
@@ -21,6 +21,8 @@ CMD ["pnpm", "dev"]
 FROM install as server
 
 WORKDIR /usr/src/app/server
+
+RUN pnpm generate
 
 EXPOSE 9876
 

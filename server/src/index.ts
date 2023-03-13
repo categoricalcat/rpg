@@ -8,6 +8,10 @@ initApollo();
 // request delay
 app.use((_, __, next) => setTimeout(next, 1000));
 
+app.get('/', (_, res) => {
+  res.send('approved');
+});
+
 process.on('uncaughtException', (e) => {
   console.log('Fatal Error');
   console.error(e);
