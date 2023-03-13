@@ -18,13 +18,13 @@ export const App = () => {
       .Messages()
       .then((r) => r.messages)
       .then((ms) => set({ messages: ms }))
-      .catch(console.warn);
+      .catch(console.info);
 
     sdk
       .getSheet({ where: { userName: { equals: 'me' } } })
       .then((r) => r.findFirstSheet)
       .then((s) => set({ sheet: s || null }))
-      .catch(console.warn);
+      .catch(console.info);
   }, []);
 
   const ws = use$(() => ws$);

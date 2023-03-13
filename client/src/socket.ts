@@ -1,8 +1,8 @@
-import { getSdk } from '@generated';
 import type { DocumentNode } from 'graphql';
 import { GraphQLClient } from 'graphql-request';
 import secretReset from './helpers/secretReset';
 import { Observable } from 'rxjs';
+import { getSdk } from '@generated';
 
 secretReset(() => {
   localStorage.removeItem('token');

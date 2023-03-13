@@ -8,7 +8,7 @@ services:
     restart: always
     environment:
       MONGO_INITDB_ROOT_USERNAME: root
-      MONGO_INITDB_ROOT_PASSWORD: example
+      MONGO_INITDB_ROOT_PASSWORD: root
 
 
   client:
@@ -43,6 +43,8 @@ services:
       context: .
       dockerfile: ./Dockerfile
       target: server
+    environment:
+      - DATABASE_URL=mongodb://root:root@mongo/rpg
     ports:
       - 9876:9876
     healthcheck:
