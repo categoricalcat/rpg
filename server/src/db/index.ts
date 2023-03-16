@@ -5,12 +5,8 @@ dotenv.config();
 
 const prisma = new PrismaClient({
   log: ['query', 'info', 'warn'],
+  errorFormat: 'pretty',
 });
-
-prisma
-  .$connect()
-  .then(() => console.log('\nConnected to database\n'))
-  .catch(console.error);
 
 export const sheet = () =>
   prisma.sheet.upsert({
@@ -32,8 +28,13 @@ export const sheet = () =>
         },
       },
       user: {
-        connect: {
-          name: 'me',
+        connectOrCreate: {
+          where: {
+            name: 'me',
+          },
+          create: {
+            name: 'me',
+          },
         },
       },
       race: {
@@ -82,8 +83,13 @@ export const sheet = () =>
     },
     update: {
       user: {
-        connect: {
-          name: 'me',
+        connectOrCreate: {
+          where: {
+            name: 'me',
+          },
+          create: {
+            name: 'me',
+          },
         },
       },
       items: {
@@ -122,6 +128,10 @@ export const sheet = () =>
     },
   });
 
-// sheet().then(console.log).catch(console.error);
+prisma
+  .$connect()
+  .then(() => console.log('\nConnected to database\n'))
+  .then(() => sheet().then(console.log))
+  .catch(console.error);
 
 export default prisma;

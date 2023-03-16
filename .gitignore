@@ -2,6 +2,7 @@
 generated
 rpg.db*
 uploads
+.pnpm-store
 
 .cert/*.pem
 docs
