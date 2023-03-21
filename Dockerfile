@@ -24,6 +24,8 @@ WORKDIR /usr/src/app/server
 
 RUN pnpm generate
 
+RUN pnpm prisma db push
+
 EXPOSE 9876
 
 CMD ["pnpm", "dev"]
