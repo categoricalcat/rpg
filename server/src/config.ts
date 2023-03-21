@@ -60,7 +60,7 @@ server.listen(port, async () => {
 export const initApollo = async () => {
   const build = await buildTypeDefsAndResolvers({
     resolvers,
-    validate: true,
+    validate: false,
   });
 
   const schema = makeExecutableSchema({

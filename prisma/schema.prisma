@@ -8,6 +8,7 @@ generator client {
 generator typegraphql {
   provider           = "typegraphql-prisma"
   emitTranspiledCode = true
+  simpleResolvers    = true
 }
 
 datasource db {
