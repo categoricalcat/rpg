@@ -1,3 +1,8 @@
 # RPG
 
-Travar no primeiro passo é comum mas não é regra.
+Travar no primeiro passo é a regra. Contudo, a Regra é uma descrição do que acontece, não de como deveria ser.
+
+
+## TODO
+
+-

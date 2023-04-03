@@ -11,7 +11,10 @@ import WS_TYPES from '@helpers/WS_TYPES';
 import Loader from '@assets/Loader';
 
 export const App = () => {
-  const { messages, set, addMessage, sheet } = useStore();
+  const store = useStore();
+  const { messages, set, addMessage, sheet } = store;
+
+  console.log(store);
 
   useEffect(() => {
     sdk
