@@ -11,7 +11,11 @@ import lt from '@lt';
 const numCPUs = availableParallelism();
 
 if (cluster.isPrimary) {
-  console.log(`Primary ${process.pid} is running`);
+  console.log(
+    `Primary ${process.pid} is running | ${numCPUs} | ${
+      process.env['NODE_ENV']
+    } | http://localhost:${process.env['PORT'] || 9876}/`,
+  );
   lt.listen().then((url) =>
     console.log('lt is listening at', url),
   );
@@ -27,7 +31,10 @@ if (cluster.isPrimary) {
   });
 } else {
   // request delay
-  app.use((_, __, next) => setTimeout(next, 1000));
+  app.use((_, __, next) => {
+    console.log('request for worker ' + process.pid);
+    setTimeout(next, 1000);
+  });
 
   app.get('/', (_, res) => {
     res.send('approved');

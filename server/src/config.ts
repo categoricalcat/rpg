@@ -39,13 +39,7 @@ app.use(cors()); // tnc
 
 export const listen = () =>
   server.listen(port, async () => {
-    const env = process.env['NODE_ENV'] as string;
-
-    console.log(`
-    Worker ${process.pid} started
-    listening >>= http://localhost:${port}
-    NODE_ENV >>= ${env}
-    `);
+    console.log(`Worker ${process.pid} started`);
   });
 
 export const initApollo = async () => {
