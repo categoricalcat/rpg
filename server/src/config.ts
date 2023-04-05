@@ -1,7 +1,6 @@
 import express, { type Express } from 'express';
 
 import cors from 'cors';
-import { compress } from 'lzutf8';
 import { createServer } from 'http';
 import WebSocket, { WebSocketServer } from 'ws';
 import { json } from 'body-parser';
@@ -9,7 +8,6 @@ import { resolvers } from '@generated/type-graphql';
 import { buildTypeDefsAndResolvers } from 'type-graphql';
 import { ApolloServer } from '@apollo/server';
 import { expressMiddleware } from '@apollo/server/express4';
-import lt from './lt';
 import prisma from '@db';
 import { makeExecutableSchema } from '@graphql-tools/schema';
 
@@ -39,23 +37,16 @@ ws.on('close', (s: WebSocket) => {
 
 app.use(cors()); // tnc
 
-// eslint-disable-next-line @typescript-eslint/no-misused-promises
-server.listen(port, async () => {
-  const url = await lt.listen();
+export const listen = () =>
+  server.listen(port, async () => {
+    const env = process.env['NODE_ENV'] as string;
 
-  const c = compress(url, {
-    outputEncoding: 'Base64',
-  }) as string;
-
-  const env = process.env['NODE_ENV'] as string;
-
-  console.log(`
+    console.log(`
+    Worker ${process.pid} started
     listening >>= http://localhost:${port}
-    token >>= ${c}
-    tunneling >>= ${url}
     NODE_ENV >>= ${env}
     `);
-});
+  });
 
 export const initApollo = async () => {
   const build = await buildTypeDefsAndResolvers({
