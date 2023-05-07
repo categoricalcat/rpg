@@ -16,11 +16,12 @@
     "client",
     "server"
   ],
+  "packageManager": "^pnpm@8.4.0",
   "scripts": {
     "dev": "pnpm --stream -r dev",
     "docker": "bash ./scripts/start.bash",
     "generate": "pnpm --stream -r generate",
-    "preinstall": "npx only-allow pnpm && pnpm ncu && pnpm sort",
+    "preinstall": "pnpm ncu && pnpm sort",
     "ncu": "pnpm -r exec npm-check-updates",
     "sort": "pnpm -r exec sort-package-json"
   }
