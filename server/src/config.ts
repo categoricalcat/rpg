@@ -3,7 +3,7 @@ import express, { type Express } from 'express';
 import cors from 'cors';
 import { createServer } from 'http';
 import WebSocket, { WebSocketServer } from 'ws';
-import { json } from 'body-parser';
+import bp from 'body-parser';
 import { resolvers } from '@generated/type-graphql';
 import { buildTypeDefsAndResolvers } from 'type-graphql';
 import { ApolloServer } from '@apollo/server';
@@ -61,7 +61,7 @@ export const initApollo = async () => {
 
   app.use(
     '/graphql',
-    json(),
+    bp.json(),
     expressMiddleware(apollo, {
       context: async () => ({ prisma }),
     }),
