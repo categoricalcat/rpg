@@ -1,11 +1,10 @@
 import dotenv from 'dotenv';
 import path from 'path';
 import { defineConfig } from 'vite';
-import react from '@vitejs/plugin-react';
-// import react from '@vitejs/plugin-react-swc';
+// import react from '@vitejs/plugin-react';
+import react from '@vitejs/plugin-react-swc';
 import tsconfigPaths from 'vite-tsconfig-paths';
-
-import slugify from 'slugify';
+import { visualizer } from 'rollup-plugin-visualizer';
 
 dotenv.config();
 
@@ -13,6 +12,13 @@ const target = ['chrome100'];
 
 export default defineConfig(() => ({
   plugins: [
+    visualizer({
+      template: 'treemap', // or sunburst
+      open: true,
+      gzipSize: true,
+      brotliSize: true,
+      filename: 'analice.html',
+    }),
     react(),
     tsconfigPaths({
       root: path.resolve(__dirname),

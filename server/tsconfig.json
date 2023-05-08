@@ -7,9 +7,9 @@
     "experimentalDecorators": true,
     "skipDefaultLibCheck": true,
     "skipLibCheck": true,
-    "moduleResolution": "nodenext",
-    "allowSyntheticDefaultImports": true,
-    "esModuleInterop": true,
+    // "moduleResolution": "nodenext",
+    // "allowSyntheticDefaultImports": true,
+    // "esModuleInterop": true,
     "ignoreDeprecations": "5.0",
     "paths": {
       "@*": [

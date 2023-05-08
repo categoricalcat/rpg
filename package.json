@@ -21,7 +21,7 @@
     "dev": "pnpm --stream -r dev",
     "docker": "bash ./scripts/start.bash",
     "generate": "pnpm --stream -r generate",
-    "preinstall": "pnpm ncu && pnpm sort",
+    "format": "pnpm ncu && pnpm sort",
     "ncu": "pnpm -r exec npm-check-updates",
     "sort": "pnpm -r exec sort-package-json"
   }
