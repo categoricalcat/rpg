@@ -1,12 +1,16 @@
 /* eslint-disable @typescript-eslint/restrict-plus-operands */
 import 'reflect-metadata';
 
-import { app, initApollo, listen } from '@config';
-
 import cluster from 'node:cluster';
 import { availableParallelism } from 'node:os';
 import process from 'node:process';
-import lt from '@lt';
+import { Router } from 'express';
+
+import lt from '@lt.js';
+import { app, initApollo, listen } from '@config.js';
+
+const router = Router() as Router;
+app.use(router);
 
 const numCPUs = availableParallelism();
 
@@ -31,14 +35,14 @@ if (cluster.isPrimary) {
   });
 } else {
   // request delay
-  app.use((_, __, next) => {
-    console.log('request for worker ' + process.pid);
-    setTimeout(next, 1000);
-  });
+  // router.use((_, __, next) => {
+  //   console.log('request for worker ' + process.pid);
+  //   setTimeout(next, 1000);
+  // });
 
-  app.get('/', (_, res) => {
-    res.send('approved');
-  });
+  // router.get('/', (_, res) => {
+  //   res.send('approved');
+  // });
 
   process.on('uncaughtException', (e) => {
     console.log('Fatal Error');

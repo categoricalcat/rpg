@@ -1,5 +1,5 @@
 .DS_Store
-generated
+generated/*
 rpg.db*
 uploads
 .pnpm-store

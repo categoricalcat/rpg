@@ -18,6 +18,7 @@
     "files.exclude": {
       "client/": true,
       "server/": true
-    }
+    },
+    "typescript.tsdk": "SERVER\\node_modules\\typescript\\lib"
   }
 }

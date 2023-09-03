@@ -1,18 +1,17 @@
-import express, { type Express } from 'express';
+import express from 'express';
 
 import cors from 'cors';
 import { createServer } from 'http';
 import WebSocket, { WebSocketServer } from 'ws';
-import bp from 'body-parser';
-import { resolvers } from '@generated/type-graphql';
-import { buildTypeDefsAndResolvers } from 'type-graphql';
+import { buildSchema } from 'type-graphql';
 import { ApolloServer } from '@apollo/server';
-import { expressMiddleware } from '@apollo/server/express4';
-import prisma from '@db';
-import { makeExecutableSchema } from '@graphql-tools/schema';
+import { startStandaloneServer } from '@apollo/server/standalone';
+import prisma from '@db/index.js';
+
+import { resolvers } from '@generated/typegraphql/index.js';
 
 export const port = 9876;
-export const app = express() as Express;
+export const app = express();
 export const server = createServer(app);
 export const ws = new WebSocketServer({
   server,
@@ -43,14 +42,9 @@ export const listen = () =>
   });
 
 export const initApollo = async () => {
-  const build = await buildTypeDefsAndResolvers({
+  const schema = await buildSchema({
     resolvers,
     validate: false,
-  });
-
-  const schema = makeExecutableSchema({
-    typeDefs: build.typeDefs,
-    resolvers: build.resolvers,
   });
 
   const apollo = new ApolloServer({
@@ -59,11 +53,12 @@ export const initApollo = async () => {
 
   await apollo.start();
 
-  app.use(
-    '/graphql',
-    bp.json(),
-    expressMiddleware(apollo, {
-      context: async () => ({ prisma }),
-    }),
-  );
+  const h = await startStandaloneServer(apollo, {
+    context: async () => ({ prisma }),
+    listen: {
+      port: 9999,
+    },
+  });
+
+  console.log(h.url);
 };

@@ -2,7 +2,7 @@ import dotenv from 'dotenv';
 import cluster from 'node:cluster';
 
 import { PrismaClient } from '@prisma/client';
-import seed from './seed';
+import seed from './seed.js';
 dotenv.config();
 
 const prisma = new PrismaClient({

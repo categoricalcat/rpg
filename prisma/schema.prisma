@@ -3,12 +3,13 @@
 
 generator client {
   provider = "prisma-client-js"
+  output   = "node_modules/@generated/client"
 }
 
 generator typegraphql {
   provider           = "typegraphql-prisma"
+  output             = "node_modules/@generated/typegraphql"
   emitTranspiledCode = true
-  // simpleResolvers    = true
 }
 
 datasource db {

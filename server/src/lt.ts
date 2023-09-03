@@ -1,5 +1,5 @@
 import lt from 'localtunnel';
-import { port } from './config';
+import { port } from './config.js';
 
 const listen = async (): Promise<string> => {
   const t = await lt({ port });
