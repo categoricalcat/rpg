@@ -1,14 +1,9 @@
-import express from 'express';
-
-import cors from 'cors';
-import { createServer } from 'http';
 import WebSocket, { WebSocketServer } from 'ws';
+import { fastify } from './server.js';
 
 export const port = 9876;
-export const app = express();
-export const server = createServer(app);
 export const ws = new WebSocketServer({
-  server,
+  server: fastify.server,
   path: '/graphql',
 });
 
@@ -27,5 +22,3 @@ ws.on('connection', (client) => {
 ws.on('close', (s: WebSocket) => {
   clients.delete(s);
 });
-
-app.use(cors()); // tnc
