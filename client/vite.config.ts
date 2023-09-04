@@ -24,8 +24,6 @@ export default defineConfig(() => ({
       root: path.resolve(__dirname),
     }),
   ],
-  root: 'src',
-  logLevel: 'info',
   define: {
     'process.env': {
       NODE_ENV: JSON.stringify(process.env['NODE_ENV']),
@@ -35,7 +33,6 @@ export default defineConfig(() => ({
   server: {
     port: 6789,
     host: '0.0.0.0',
-    strictPort: true,
   },
   build: {
     target,

@@ -1,11 +1,11 @@
 import type { CodegenConfig } from '@graphql-codegen/cli';
 
-const host = process.env.HOST || 'server';
+const host = process.env.HOST || 'localhost';
 
 const config: CodegenConfig = {
   overwrite: true,
   verbose: true,
-  schema: `http://${host}:9876/graphql`,
+  schema: `http://${host}:9999`,
   documents: 'src/documents/*.gql',
   ignoreNoDocuments: true, // for better experience with the watcher
   generates: {
