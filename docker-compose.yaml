@@ -1,0 +1,23 @@
+name: rpg
+
+services:
+  dbadmin:
+    restart: always
+    image: dpage/pgadmin4:latest
+    ports:
+      - 8080:80
+    environment:
+      PGADMIN_DEFAULT_EMAIL: 123@123.com
+      PGADMIN_DEFAULT_PASSWORD: 123
+
+  db:
+    restart: always
+    container_name: rpg-db
+    image: postgres:latest
+    command: ["postgres", "-c", "log_statement=all"]
+    ports:
+      - 5432:5432
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: rpg
